@@ -17,10 +17,10 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('firstname');
             $table->string('lastname');
-            $table->string('code')->unique();
+            $table->string('username')->unique();
             $table->string('email')->nullable();
             $table->string('password');
-            $table->enum('type', ['student', 'staff']);
+            $table->enum('type', ['admin', 'staff']);
             $table->rememberToken();
             $table->timestamps();
         });

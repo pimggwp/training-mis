@@ -46,12 +46,8 @@ class UserController extends Controller
         $user->firstname = $request->get('firstname');
         $user->lastname = $request->get('lastname');
         $user->code = $request->get('code');
-        $user->barcode = $request->get('barcode');
         $user->type = $request->get('type');
         $user->sex = $request->get('sex');
-        $user->point = $request->get('point');
-        $user->education = $request->get('education');
-        $user->unit = $request->get('unit');
         $user->password = bcrypt($request->get('bdate'));
         $user->save();
         return response()->json($user);
@@ -91,15 +87,10 @@ class UserController extends Controller
         $user = User::find($id);
         $user->firstname = $request->get('firstname');
         $user->lastname = $request->get('lastname');
-        $user->email = $request->get('email');
         $user->code = $request->get('code');
-        $user->barcode = $request->get('barcode');
-        $user->total = $request->get('total');
         $user->type = $request->get('type');
         $user->sex = $request->get('sex');
-        $user->point = $request->get('point');
-        $user->education = $request->get('education');
-        $user->unit = $request->get('unit');
+        $user->password = bcrypt($request->get('bdate'));
         $user->update();
         return response()->json($user);
     }

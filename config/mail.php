@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'coop.anubanck@gmail.com'),
-        'name' => env('MAIL_FROM_NAME', 'สหกรณ์โรงเรียนอนุบาลเชียงคำ'),
+        'address' => env('MAIL_FROM_ADDRESS', 'from@gmail.com'),
+        'name' => env('MAIL_FROM_NAME', 'ผู้ส่ง'),
     ],
 
     /*
