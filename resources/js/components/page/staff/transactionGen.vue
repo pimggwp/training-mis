@@ -2,8 +2,8 @@
   <v-layout class="justify-end mt-4 mr-5 mb-3">
     <v-flex xs9 sm11>
       <h2 class="txt-title mt-2">
-        <v-icon large color="pink">assignment_turned_in</v-icon>
-        &nbsp;ทำรายการทั่วไป ({{pageShow}})
+        <v-icon large color="blue">assignment_turned_in</v-icon>
+        &nbsp;ทำรายการทั่วไป
       </h2>
       <br />
       <v-card>

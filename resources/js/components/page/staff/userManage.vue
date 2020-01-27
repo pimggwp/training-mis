@@ -4,8 +4,8 @@
       <v-toolbar flat color="white">
         <v-toolbar-title>
           <h3>
-            <v-icon large color="pink">supervised_user_circle</v-icon>
-            &nbsp;สมาชิกในระบบ ({{pageShow}})
+            <v-icon large color="blue">supervised_user_circle</v-icon>
+            &nbsp;สมาชิกในระบบ
             <!-- <v-btn color="primary" dark class="mb-2 txt-title" @click="genBC">GenBC</v-btn> -->
           </h3>
         </v-toolbar-title>

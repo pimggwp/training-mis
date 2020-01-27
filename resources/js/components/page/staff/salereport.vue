@@ -6,8 +6,8 @@
           <v-card-title>
             <v-layout row wrap justify-space-between>
               <h2 class="txt-title mt-0">
-                <v-icon large color="pink">description</v-icon>
-                &nbsp;รายงานยอดขาย ({{pageShow}})
+                <v-icon large color="blue">description</v-icon>
+                &nbsp;รายงานยอดขาย
               </h2>
               <v-flex xs12 sm5 md4>
                 <v-layout row wrap>
@@ -33,7 +33,7 @@
                     </template>
                     <v-date-picker
                       v-model="date"
-                      color="pink accent-3"
+                      color="blue accent-3"
                       locale="th"
                       type="date"
                       scrollable
@@ -58,7 +58,7 @@
                     </template>
                     <v-date-picker
                       v-model="month"
-                      color="pink accent-3"
+                      color="blue accent-3"
                       locale="th"
                       type="month"
                       scrollable

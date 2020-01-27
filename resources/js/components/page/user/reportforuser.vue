@@ -6,8 +6,8 @@
           <v-card-title>
             <v-layout row wrap justify-space-between>
               <h2 class="txt-title mt-0">
-                <v-icon large color="pink">description</v-icon>
-                &nbsp;รายงานการซื้อ ({{pageShow}})
+                <v-icon large color="blue">description</v-icon>
+                &nbsp;รายงานการซื้อ
               </h2>
               <v-flex xs12 sm5 md3>
                 <v-dialog
@@ -28,7 +28,7 @@
                       v-on="on"
                     ></v-text-field>
                   </template>
-                  <v-date-picker v-model="date" color="pink accent-3" type="month" locale="th" scrollable>
+                  <v-date-picker v-model="date" color="blue accent-3" type="month" locale="th" scrollable>
                     <v-spacer></v-spacer>
                     <v-btn flat color="primary" @click="modal = false">ยกเลิก</v-btn>
                     <v-btn flat color="primary" @click="$refs.dialog.save(date)">ตกลง</v-btn>

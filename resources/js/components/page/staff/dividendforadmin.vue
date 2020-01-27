@@ -4,8 +4,8 @@
       <v-toolbar flat color="white">
         <v-toolbar-title>
           <h3>
-            <v-icon large color="pink">monetization_on</v-icon>
-            &nbsp;รายงานปันผลและเฉลี่ยคืน ({{pageShow}})
+            <v-icon large color="blue">monetization_on</v-icon>
+            &nbsp;รายงานปันผลและเฉลี่ยคืน
           </h3>
         </v-toolbar-title>
         <v-divider class="mx-2" inset vertical></v-divider>

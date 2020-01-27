@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>สหกรณ์โรงเรียนอนุบาลเชียงคำ</title>
+    <title>ระบบบันทึกประวัติการฝึกอบรม</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -24,9 +24,9 @@
 
 <body>
     <div id="app" class="Hello">
-        <v-toolbar color="pink accent-3" dark permanent fixed>
+        <v-toolbar color="blue lighten-2" dark permanent fixed>
             <v-toolbar-title class="txt-title action-container"><img src="/images/elements/logo.png"
-                    height="60">ระบบสหกรณ์ร้านค้า</v-toolbar-title>
+                    height="60">ระบบบันทึกประวัติการฝึกอบรม</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-toolbar-items class="hidden-sm-and-down">
                 @guest

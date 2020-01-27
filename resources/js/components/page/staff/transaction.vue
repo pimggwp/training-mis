@@ -2,12 +2,12 @@
   <v-layout class="justify-end mt-4 mr-5 mb-3">
     <v-flex xs9 sm11>
       <h2 class="txt-title mt-2">
-        <v-icon large color="pink">assignment_turned_in</v-icon>
-        &nbsp;ทำรายการแบบรับใบเสร็จ ({{pageShow}})
+        <v-icon large color="blue">assignment_turned_in</v-icon>
+        &nbsp;ทำรายการแบบรับใบเสร็จ
       </h2>
       <br />
       <v-stepper v-model="e6" vertical>
-        <v-stepper-step :complete="e6 > 1" step="1" color="pink">
+        <v-stepper-step :complete="e6 > 1" step="1" color="blue">
           <h3>กรอกรหัสสมาชิก</h3>
         </v-stepper-step>
         <v-stepper-content step="1">
@@ -35,7 +35,7 @@
             @click="clearOne()"
           >ยกเลิก</v-btn>
         </v-stepper-content>
-        <v-stepper-step :complete="e6 > 2" step="2" color="pink">
+        <v-stepper-step :complete="e6 > 2" step="2" color="blue">
           <h3>รายการสินค้าที่ซื้อ</h3>
         </v-stepper-step>
         <v-stepper-content step="2">
@@ -81,7 +81,7 @@
             @click="e6 = 1,clearTwo()"
           >ยกเลิก</v-btn>
         </v-stepper-content>
-        <v-stepper-step :complete="e6 > 3" step="3" color="pink">
+        <v-stepper-step :complete="e6 > 3" step="3" color="blue">
           <h3>สรุปรายการ</h3>
         </v-stepper-step>
         <v-stepper-content step="3">

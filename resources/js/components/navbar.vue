@@ -28,7 +28,7 @@
               />
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title class="txt-title">{{usernow.firstname}} {{usernow.lastname}}</v-list-tile-title>
+              <v-list-tile-title class="txt-title"><h2>{{usernow.firstname}} {{usernow.lastname}} </h2></v-list-tile-title>
             </v-list-tile-content>
             <v-list-tile-action>
               <v-btn icon @click.stop="mini = !mini">
@@ -91,32 +91,27 @@ export default {
       itemsAdmin: [
         { title: "เมนูหลัก", icon: "dashboard", link: "/" },
         {
-          title: "รายการสินค้า",
-          icon: "shopping_cart",
+          title: "บันทึกการอบรม",
+          icon: "date_range",
           link: "/product"
         },
         {
-          title: "ทำรายการ",
+          title: "ประวัติการฝึกอบรมรายบุคคล",
           icon: "assignment_turned_in",
           link: "/transaction-staff"
         },
         {
-          title: "ดูรายงานยอดขาย",
-          icon: "description",
-          link: "/salereport"
-        },
-        {
-          title: "ดูรายงานปันผล/เฉลี่ยคืน",
-          icon: "monetization_on",
+          title: "เพิ่มข้อมูลการอบรม",
+          icon: "assignment_turned_in",
           link: "/dividend-for-admin"
         },
         {
-          title: "ปฏิทินกำหนดการ",
-          icon: "date_range",
+          title: "รายงานสรุปผล",
+          icon: "description",
           link: "/event"
         },
         {
-          title: "จัดการสมาชิก",
+          title: "จัดการพนักงาน",
           icon: "supervised_user_circle",
           link: "/user"
         }

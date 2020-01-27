@@ -5,7 +5,7 @@
         <v-container fluid grid-list-md>
           <v-layout row wrap justify-space-between mb-4>
             <h2 class="txt-title mt-2">
-              <v-icon large color="pink">perm_identity</v-icon>&nbsp;ข้อมูลส่วนบุคคล ({{pageShow}})
+              <v-icon large color="blue">perm_identity</v-icon>&nbsp;ข้อมูลส่วนบุคคล
             </h2>
           </v-layout>
           <v-card>
@@ -42,7 +42,7 @@
                 >E-mail {{usernow.email}}</p>
                 <div v-if="!usernow.email && !emailConfirm">
                   <p class="txt-title" style="color:red;">
-                    <v-icon color="pink">new_releases</v-icon>&nbsp;ขณะนี้คุณยังไม่ได้กรอกอีเมล์สำหรับแจ้งข่าวสารจากสหกรณ์โรงเรียน หากต้องการสมัครรับข่าวสารผ่านอีเมล์ กรุณากรอกอีเมล์ข้างล่าง
+                    <v-icon color="blue">new_releases</v-icon>&nbsp;ขณะนี้คุณยังไม่ได้กรอกอีเมล์สำหรับแจ้งข่าวสารจากสหกรณ์โรงเรียน หากต้องการสมัครรับข่าวสารผ่านอีเมล์ กรุณากรอกอีเมล์ข้างล่าง
                     <v-form ref="form" v-model="valid">
                       <v-layout row wrap mt-2 justify-center>
                         <v-flex xs12 sm12 md5>
