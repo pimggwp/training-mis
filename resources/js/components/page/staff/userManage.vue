@@ -124,49 +124,13 @@
               />
             </v-btn>
           </template>
-          <v-card>
-            <v-card-title>
-              <h2 class="txt-title">Upload from CSV file</h2>
-            </v-card-title>
-            <v-card-text>
-              <v-layout wrap>
-                <label for="csv_file" class="control-label col-sm-3 text-right">CSV file to import</label>
-                <input
-                  hidden
-                  type="file"
-                  id="csv_file"
-                  name="csv_file"
-                  class="form-control"
-                  @change="loadCSV($event)"
-                />
-                <table v-if="parse_csv">
-                  <thead>
-                    <tr>
-                      <th v-for="key in parse_header">
-                        {{ key | capitalize }}
-                        <span class="arrow"></span>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tr v-for="csv in parse_csv" :key="csv">
-                    <td v-for="key in parse_header" :key="key">{{csv[key]}}</td>
-                  </tr>
-                </table>
-              </v-layout>
-            </v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" flat @click="close2">ยกเลิก</v-btn>
-              <v-btn color="blue darken-1" flat @click="saveDataSet">บันทึก</v-btn>
-            </v-card-actions>
-          </v-card>
         </v-dialog>
-        <v-btn
+        <!-- <v-btn
           color="orange accent-3"
           dark
           class="mb-2 txt-title"
           @click="reportPdf()"
-        >พิมพ์บัตรสมาชิก</v-btn>
+        >พิมพ์บัตรสมาชิก</v-btn> -->
       </v-toolbar>
       <v-data-table
         :headers="headers"
@@ -208,9 +172,6 @@
 </template>
 
 <script>
-import pdfmemberCard from "./pdfReport/pdfmemberCard";
-var groupArray = require("group-array");
-import { Ean13Utils } from "ean13-lib";
 export default {
   $_veeValidate: {
     validator: "new"
@@ -241,28 +202,6 @@ export default {
       { text: "คะแนน", value: "point" },
       { text: "ระดับชั้น", value: "education" },
       { text: "จำนวนหุ้น", value: "unit" }
-    ],
-    select: [
-      "อนุบาล 2/1","อนุบาล 2/2","อนุบาล 2/3","อนุบาล 2/4",
-      "อนุบาล 3/1","อนุบาล 3/2","อนุบาล 3/3",
-      "ประถมศึกษาปีที่ 1/1",
-      "ประถมศึกษาปีที่ 1/2",
-      "ประถมศึกษาปีที่ 1/3",
-      "ประถมศึกษาปีที่ 2/1",
-      "ประถมศึกษาปีที่ 2/2",
-      "ประถมศึกษาปีที่ 2/3",
-      "ประถมศึกษาปีที่ 3/1",
-      "ประถมศึกษาปีที่ 3/2",
-      "ประถมศึกษาปีที่ 3/3",
-      "ประถมศึกษาปีที่ 4/1",
-      "ประถมศึกษาปีที่ 4/2",
-      "ประถมศึกษาปีที่ 4/3",
-      "ประถมศึกษาปีที่ 5/1",
-      "ประถมศึกษาปีที่ 5/2",
-      "ประถมศึกษาปีที่ 5/3",
-      "ประถมศึกษาปีที่ 6/1",
-      "ประถมศึกษาปีที่ 6/2",
-      "ประถมศึกษาปีที่ 6/3"
     ],
     users: [],
     editIndex: -1,
@@ -372,139 +311,6 @@ export default {
       }
       this.dialog2 = false;
     },
-    save() {
-      this.$validator.validateAll();
-      let forBarcode = "1000000" + this.editItem.code + "1";
-      const result = Ean13Utils.calculateCheckDigit(forBarcode);
-      this.editItem.barcode = forBarcode + result;
-      if (this.editIndex > -1) {
-        //กรณีที่เคยมี Edit
-        Object.assign(this.users[this.editIndex], this.editItem) &&
-          axios.put("/api/user/" + this.editid, {
-            firstname: this.editItem.firstname,
-            lastname: this.editItem.lastname,
-            code: this.editItem.code,
-            barcode: this.editItem.barcode,
-            type: this.editItem.type,
-            sex: this.editItem.sex,
-            point: this.editItem.point,
-            education: this.editItem.education,
-            unit: this.editItem.unit
-          });
-        this.snackbar = true;
-        this.close();
-      } else {
-        if (this.checkInput) {
-          this.users.push(this.editItem) &&
-            axios.post("/api/user", {
-              firstname: this.editItem.firstname,
-              lastname: this.editItem.lastname,
-              code: this.editItem.code,
-              barcode: this.editItem.barcode,
-              type: this.editItem.type,
-              sex: this.editItem.sex,
-              point: this.editItem.point,
-              education: this.editItem.education,
-              unit: this.editItem.unit,
-              bdate: this.editItem.bdate
-            });
-          this.snackbar = true;
-          this.close();
-        }
-      }
-    },
-    csvJSON(csv) {
-      var vm = this;
-      var lines = csv.split("\n");
-      var result = [];
-      var headers = lines[0].split(",");
-      vm.parse_header = lines[0].split(",");
-      lines[0].split(",").forEach(function(key) {
-        vm.sortOrders[key] = 1;
-      });
-      lines.map(function(line, indexLine) {
-        if (indexLine < 1) return; // Jump header line
-        var obj = {};
-        var currentline = line.split(",");
-        headers.map(function(header, indexHeader) {
-          obj[header] = currentline[indexHeader];
-        });
-        result.push(obj);
-      });
-      result.pop(); // remove the last item because undefined values
-      return result; // JavaScript object
-    },
-    loadCSV(e) {
-      var vm = this;
-      if (window.FileReader) {
-        var reader = new FileReader();
-        reader.readAsText(e.target.files[0]);
-        // Handle errors load
-        reader.onload = function(event) {
-          var csv = event.target.result;
-          vm.parse_csv = vm.csvJSON(csv);
-        };
-        reader.onerror = function(evt) {
-          if (evt.target.error.name == "NotReadableError") {
-            alert("Canno't read file !");
-          }
-        };
-      } else {
-        alert("FileReader are not supported in this browser.");
-      }
-    },
-    saveDataSet() {
-      console.log(this.parse_csv);
-      for (var i = 0; i < this.parse_csv.length; i++) {
-        let forBarcode = "1000000" + this.parse_csv[i].code + "1";
-        const result = Ean13Utils.calculateCheckDigit(forBarcode);
-        this.editItem.firstname = this.parse_csv[i].firstname;
-        this.editItem.lastname = this.parse_csv[i].lastname;
-        this.editItem.code = this.parse_csv[i].code;
-        this.editItem.barcode = forBarcode + result;
-        this.editItem.type = "student";
-        this.editItem.sex = this.parse_csv[i].sex;
-        this.editItem.education = this.parse_csv[i].education;
-        this.editItem.bdate = this.parse_csv[i].birthDate;
-        this.users.push(this.editItem) &
-          axios.post("/api/user", {
-            firstname: this.parse_csv[i].firstname,
-            lastname: this.parse_csv[i].lastname,
-            code: this.parse_csv[i].code,
-            barcode: this.editItem.barcode,
-            education: this.parse_csv[i].education,
-            bdate: this.parse_csv[i].birthDate,
-            sex: this.parse_csv[i].sex,
-            type: "student",
-            point: 0,
-            unit: 0
-          });
-        this.editItem = Object.assign({}, this.defaultItem);
-      }
-      this.snackbar = true;
-      this.close2();
-    },
-    reportPdf() {
-      let input = groupArray(this.filterUsers, "education");
-      var output = [],
-        item;
-      for (var name in input) {
-        item = {};
-        item.name = name;
-        item.data = input[name];
-        output.push(item);
-      }
-      output.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0));
-      pdfmemberCard.pdfMaker(output);
-    }
-    // genBC() {
-    //   let forBarcode = "1000000" + this.users[3924].code + "1";
-    //   const result = Ean13Utils.calculateCheckDigit(forBarcode);
-    //   this.editItem.barcode = forBarcode + result;
-    //   axios.put("/api/user/" + this.users[3924].id, {
-    //     barcode: this.editItem.barcode
-    //   });
-    // }
   }
 };
 </script>
@@ -520,6 +326,7 @@ th,
 td {
   text-align: left;
   padding: 8px;
+  font-size: 20px;
 }
 
 tr:nth-child(even) {

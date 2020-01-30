@@ -28,7 +28,7 @@
               />
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title class="txt-title"><h2>{{usernow.firstname}} {{usernow.lastname}} </h2></v-list-tile-title>
+              <v-list-tile-title class="txt-title"><h3>{{usernow.firstname}} {{usernow.lastname}} </h3></v-list-tile-title>
             </v-list-tile-content>
             <v-list-tile-action>
               <v-btn icon @click.stop="mini = !mini">
@@ -83,32 +83,31 @@ export default {
   props: ["usernow"],
   mounted() {
     console.log(this.usernow);
-    console.log(location.pathname);
   },
   data() {
     return {
       drawer: true,
       itemsAdmin: [
-        { title: "เมนูหลัก", icon: "dashboard", link: "/" },
+        { title: "หน้าแรก", icon: "dashboard", link: "/" },
         {
-          title: "บันทึกการอบรม",
-          icon: "date_range",
+          title: "บันทึกข้อมูลการฝึกอบรม",
+          icon: "assignment_turned_in",
           link: "/product"
         },
         {
           title: "ประวัติการฝึกอบรมรายบุคคล",
           icon: "assignment_turned_in",
-          link: "/transaction-staff"
+          // link: "/transaction-staff"
         },
         {
-          title: "เพิ่มข้อมูลการอบรม",
+          title: "ค้นหาข้อมูลหลักสูตรอบรม",
           icon: "assignment_turned_in",
           link: "/dividend-for-admin"
         },
         {
           title: "รายงานสรุปผล",
           icon: "description",
-          link: "/event"
+          // link: "/event"
         },
         {
           title: "จัดการพนักงาน",

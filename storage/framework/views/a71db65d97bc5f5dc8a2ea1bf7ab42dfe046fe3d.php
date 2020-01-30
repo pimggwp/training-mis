@@ -26,21 +26,23 @@
     <div id="app" class="Hello">
         <v-toolbar color="blue lighten-2" dark permanent fixed>
             <v-toolbar-title class="txt-title action-container"><img src="/images/elements/logo.png"
-                    height="60"><h1>ระบบบันทึกประวัติการฝึกอบรม</h1></v-toolbar-title>
+                    height="60"><h2>ระบบบันทึกประวัติการฝึกอบรม</h2></v-toolbar-title>
             <v-spacer></v-spacer>
             <v-toolbar-items class="hidden-sm-and-down">
                 <?php if(auth()->guard()->guest()): ?>
                 <v-btn class="txt-title" href="/login" flat>LOGIN</v-btn>
                 <?php else: ?>
                     <?php if(auth()->check() && (auth::user()->type == 'staff')): ?>
-                    <v-btn class="txt-title" href="#" flat><v-icon>perm_identity</v-icon>&nbsp<?php echo e(Auth::user()->firstname); ?>&nbsp<?php echo e(Auth::user()->lastname); ?></v-btn>
+                    <v-btn class="txt-title" href="#" flat>
+                        <h3><v-icon>perm_identity</v-icon>&nbsp<?php echo e(Auth::user()->firstname); ?>&nbsp<?php echo e(Auth::user()->lastname); ?></h3>
+                    </v-btn>
                     <?php else: ?>
-                    <v-btn class="txt-title" href="/profile" flat><v-icon>perm_identity</v-icon>&nbsp<?php echo e(Auth::user()->firstname); ?>&nbsp<?php echo e(Auth::user()->lastname); ?></v-btn>
+                    <v-btn class="txt-title" href="/profile" flat> <h3><v-icon>perm_identity</v-icon>&nbsp<?php echo e(Auth::user()->firstname); ?>&nbsp<?php echo e(Auth::user()->lastname); ?></h3></v-btn>
                     <?php endif; ?>
 
                 <v-btn class="txt-title" flat href="<?php echo e(route('logout')); ?>" onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();">
-                    <v-icon>power_settings_new</v-icon>&nbsp LOGOUT
+                    <h3><v-icon>power_settings_new</v-icon>&nbsp LOGOUT</h3>
                 </v-btn>
                 <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" style="display: none;">
                     <?php echo csrf_field(); ?>

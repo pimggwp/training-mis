@@ -1,6 +1,6 @@
 <?php $__env->startSection('content'); ?>
 <div id="app">
-    <product :usernow="<?php echo e(Auth::user()); ?>"></product>
+    <save-training :usernow="<?php echo e(Auth::user()); ?>"></save-training>
 </div>
 <?php $__env->stopSection(); ?>
 
