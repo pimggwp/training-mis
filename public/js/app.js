@@ -1908,7 +1908,7 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         title: "บันทึกข้อมูลการฝึกอบรม",
         icon: "assignment_turned_in",
-        link: "/product"
+        link: "/training-save"
       }, {
         title: "ประวัติการฝึกอบรมรายบุคคล",
         icon: "assignment_turned_in" // link: "/transaction-staff"
@@ -1926,38 +1926,47 @@ __webpack_require__.r(__webpack_exports__);
         icon: "supervised_user_circle",
         link: "/user"
       }],
-      itemsStaff: [// { title: "หน้าแรก", icon: "dashboard", link: "/" },
-      {
-        title: "รายการสินค้า",
-        icon: "shopping_cart",
-        link: "/product"
-      }, {
-        title: "ทำรายการ",
-        icon: "assignment_turned_in",
-        link: "/transaction-staff"
-      }, {
-        title: "ปฏิทินกำหนดการ",
-        icon: "date_range",
-        link: "/event"
-      }],
-      itemsUser: [// { title: "หน้าแรก", icon: "dashboard", link: "/" },
-      {
-        title: "รายการสินค้า",
-        icon: "shopping_cart",
-        link: "/product"
-      }, {
-        title: "ดูรายงานการซื้อ",
-        icon: "description",
-        link: "/reportuser"
-      }, {
-        title: "ดูยอดปันผล/เฉลี่ยคืน",
-        icon: "monetization_on",
-        link: "/dividend-for-user"
-      }, {
-        title: "ปฏิทินกำหนดการ",
-        icon: "date_range",
-        link: "/event"
-      }],
+      // itemsStaff: [
+      //   // { title: "หน้าแรก", icon: "dashboard", link: "/" },
+      //   {
+      //     title: "รายการสินค้า",
+      //     icon: "shopping_cart",
+      //     link: "/product"
+      //   },
+      //   {
+      //     title: "ทำรายการ",
+      //     icon: "assignment_turned_in",
+      //     link: "/transaction-staff"
+      //   },
+      //   {
+      //     title: "ปฏิทินกำหนดการ",
+      //     icon: "date_range",
+      //     link: "/event"
+      //   }
+      // ],
+      // itemsUser: [
+      //   // { title: "หน้าแรก", icon: "dashboard", link: "/" },
+      //   {
+      //     title: "รายการสินค้า",
+      //     icon: "shopping_cart",
+      //     link: "/product"
+      //   },
+      //   {
+      //     title: "ดูรายงานการซื้อ",
+      //     icon: "description",
+      //     link: "/reportuser"
+      //   },
+      //   {
+      //     title: "ดูยอดปันผล/เฉลี่ยคืน",
+      //     icon: "monetization_on",
+      //     link: "/dividend-for-user"
+      //   },
+      //   {
+      //     title: "ปฏิทินกำหนดการ",
+      //     icon: "date_range",
+      //     link: "/event"
+      //   }
+      // ],
       mini: true,
       right: null
     };
@@ -2357,9 +2366,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /*!****************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/page/saveTraining.vue?vue&type=script&lang=js& ***!
   \****************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 //
 //
 //
@@ -2490,12 +2501,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  mounted: function mounted() {
+    this.getCourseCode();
+  },
+  data: function data() {
+    return {
+      date: null,
+      modal: false,
+      menu: false,
+      events: [],
+      types: ["InHouse", "Public", "Other"],
+      typeSelect: null,
+      courseCodeSelect: null,
+      courseCode: []
+    };
+  },
+  methods: {
+    getCourseCode: function getCourseCode() {
+      var _this = this;
+
+      axios.get("api/").then(function (response) {
+        _this.users = response.data;
+      });
+    },
+    save: function save() {}
+  }
+});
 
 /***/ }),
 
@@ -51831,12 +51863,6 @@ var render = function() {
           _c(
             "v-card",
             [
-              _c("v-card-title", [
-                _c("h2", { staticClass: "txt-title" }, [
-                  _vm._v(_vm._s(_vm.formTitle))
-                ])
-              ]),
-              _vm._v(" "),
               _c(
                 "v-card-text",
                 [
@@ -51850,174 +51876,7 @@ var render = function() {
                         [
                           _c(
                             "v-flex",
-                            { attrs: { xs12: "", sm6: "", md4: "" } },
-                            [
-                              _c("v-text-field", {
-                                directives: [
-                                  {
-                                    name: "validate",
-                                    rawName: "v-validate",
-                                    value: "required",
-                                    expression: "'required'"
-                                  }
-                                ],
-                                attrs: {
-                                  label: "ชื่อ*",
-                                  "data-vv-name": "firstname",
-                                  "error-messages": _vm.errors.collect(
-                                    "firstname"
-                                  )
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-flex",
-                            { attrs: { xs12: "", sm6: "", md4: "" } },
-                            [
-                              _c("v-text-field", {
-                                directives: [
-                                  {
-                                    name: "validate",
-                                    rawName: "v-validate",
-                                    value: "required",
-                                    expression: "'required'"
-                                  }
-                                ],
-                                attrs: {
-                                  label: "นามสกุล*",
-                                  "data-vv-name": "lastname",
-                                  "error-messages": _vm.errors.collect(
-                                    "lastname"
-                                  )
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-flex",
-                            { attrs: { xs12: "", sm6: "", md4: "" } },
-                            [
-                              _c("v-select", {
-                                directives: [
-                                  {
-                                    name: "validate",
-                                    rawName: "v-validate",
-                                    value: "required",
-                                    expression: "'required'"
-                                  }
-                                ],
-                                attrs: {
-                                  "item-text": "title",
-                                  label: "เพศ*",
-                                  "data-vv-name": "sex",
-                                  "error-messages": _vm.errors.collect("sex"),
-                                  required: ""
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-flex",
-                            { attrs: { xs12: "", sm6: "", md4: "" } },
-                            [
-                              _c("v-text-field", {
-                                directives: [
-                                  {
-                                    name: "validate",
-                                    rawName: "v-validate",
-                                    value: "required",
-                                    expression: "'required'"
-                                  }
-                                ],
-                                attrs: {
-                                  label: "รหัส*",
-                                  "data-vv-name": "code",
-                                  "error-messages": _vm.errors.collect("code")
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-flex",
-                            { attrs: { xs12: "", sm6: "", md4: "" } },
-                            [
-                              _c("v-select", {
-                                directives: [
-                                  {
-                                    name: "validate",
-                                    rawName: "v-validate",
-                                    value: "required",
-                                    expression: "'required'"
-                                  }
-                                ],
-                                attrs: {
-                                  items: _vm.statusTypes,
-                                  "item-text": "title",
-                                  label: "สถานะ*",
-                                  "data-vv-name": "type",
-                                  "error-messages": _vm.errors.collect("type"),
-                                  required: ""
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-flex",
-                            { attrs: { xs12: "", sm6: "", md4: "" } },
-                            [
-                              _c("v-text-field", {
-                                directives: [
-                                  {
-                                    name: "validate",
-                                    rawName: "v-validate",
-                                    value: "required",
-                                    expression: "'required'"
-                                  }
-                                ],
-                                attrs: {
-                                  label: "ระดับชั้น*",
-                                  "data-vv-name": "education",
-                                  "error-messages": _vm.errors.collect(
-                                    "education"
-                                  )
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-flex",
-                            { attrs: { xs12: "", sm6: "", md4: "" } },
-                            [_c("v-text-field", { attrs: { label: "คะแนน" } })],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-flex",
-                            { attrs: { xs12: "", sm6: "", md4: "" } },
-                            [
-                              _c("v-text-field", {
-                                attrs: { label: "จำนวนหุ้น" }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-flex",
-                            { attrs: { xs12: "", sm12: "", md12: "" } },
+                            { attrs: { xs12: "", sm6: "", md6: "" } },
                             [
                               _c(
                                 "v-menu",
@@ -52026,7 +51885,7 @@ var render = function() {
                                   attrs: {
                                     "close-on-content-click": false,
                                     "nudge-right": 40,
-                                    "return-value": _vm.editItem.date,
+                                    "return-value": _vm.date,
                                     lazy: "",
                                     transition: "scale-transition",
                                     "offset-y": "",
@@ -52035,18 +51894,10 @@ var render = function() {
                                   },
                                   on: {
                                     "update:returnValue": function($event) {
-                                      return _vm.$set(
-                                        _vm.editItem,
-                                        "date",
-                                        $event
-                                      )
+                                      _vm.date = $event
                                     },
                                     "update:return-value": function($event) {
-                                      return _vm.$set(
-                                        _vm.editItem,
-                                        "date",
-                                        $event
-                                      )
+                                      _vm.date = $event
                                     }
                                   },
                                   scopedSlots: _vm._u([
@@ -52068,7 +51919,7 @@ var render = function() {
                                                   }
                                                 ],
                                                 attrs: {
-                                                  label: "เลือกวันเดือนปี*",
+                                                  label: "วันที่จัดอบรม*",
                                                   "prepend-icon": "event",
                                                   "error-messages": _vm.errors.collect(
                                                     "date"
@@ -52076,6 +51927,13 @@ var render = function() {
                                                   "data-vv-name": "date",
                                                   readonly: "",
                                                   required: ""
+                                                },
+                                                model: {
+                                                  value: _vm.date,
+                                                  callback: function($$v) {
+                                                    _vm.date = $$v
+                                                  },
+                                                  expression: "date"
                                                 }
                                               },
                                               on
@@ -52104,11 +51962,11 @@ var render = function() {
                                         locale: "th"
                                       },
                                       model: {
-                                        value: _vm.editItem.date,
+                                        value: _vm.date,
                                         callback: function($$v) {
-                                          _vm.$set(_vm.editItem, "date", $$v)
+                                          _vm.date = $$v
                                         },
-                                        expression: "editItem.date"
+                                        expression: "date"
                                       }
                                     },
                                     [
@@ -52134,7 +51992,7 @@ var render = function() {
                                           on: {
                                             click: function($event) {
                                               return _vm.$refs.menu.save(
-                                                _vm.editItem.date
+                                                _vm.date
                                               )
                                             }
                                           }
@@ -52153,34 +52011,216 @@ var render = function() {
                           _vm._v(" "),
                           _c(
                             "v-flex",
-                            { attrs: { xs12: "" } },
+                            { attrs: { xs12: "", sm6: "", md6: "" } },
                             [
-                              _vm.editIndex == "-1"
-                                ? _c("v-text-field", {
-                                    directives: [
-                                      {
-                                        name: "validate",
-                                        rawName: "v-validate",
-                                        value: "required",
-                                        expression: "'required'"
-                                      }
-                                    ],
-                                    attrs: {
-                                      label: "วันเดือนปีเกิด*",
-                                      "data-vv-name": "bdate",
-                                      "error-messages": _vm.errors.collect(
-                                        "bdate"
-                                      )
-                                    },
-                                    model: {
-                                      value: _vm.editItem.bdate,
-                                      callback: function($$v) {
-                                        _vm.$set(_vm.editItem, "bdate", $$v)
-                                      },
-                                      expression: "editItem.bdate"
-                                    }
-                                  })
-                                : _vm._e()
+                              _c("v-select", {
+                                directives: [
+                                  {
+                                    name: "validate",
+                                    rawName: "v-validate",
+                                    value: "required",
+                                    expression: "'required'"
+                                  }
+                                ],
+                                attrs: {
+                                  items: _vm.types,
+                                  "item-text": "types",
+                                  label: "ประเภท*",
+                                  "data-vv-name": "types",
+                                  "error-messages": _vm.errors.collect("types"),
+                                  required: ""
+                                },
+                                model: {
+                                  value: _vm.typeSelect,
+                                  callback: function($$v) {
+                                    _vm.typeSelect = $$v
+                                  },
+                                  expression: "typeSelect"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "", sm6: "", md6: "" } },
+                            [
+                              _c("v-select", {
+                                directives: [
+                                  {
+                                    name: "validate",
+                                    rawName: "v-validate",
+                                    value: "required",
+                                    expression: "'required'"
+                                  }
+                                ],
+                                attrs: {
+                                  items: _vm.courseCode,
+                                  "item-text": "course_code",
+                                  label: "รหัสหลักสูตร*",
+                                  "data-vv-name": "course_code",
+                                  "error-messages": _vm.errors.collect(
+                                    "course_code"
+                                  ),
+                                  required: ""
+                                },
+                                model: {
+                                  value: _vm.courseCodeSelect,
+                                  callback: function($$v) {
+                                    _vm.courseCodeSelect = $$v
+                                  },
+                                  expression: "courseCodeSelect"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "", sm6: "", md6: "" } },
+                            [
+                              _c("v-text-field", {
+                                directives: [
+                                  {
+                                    name: "validate",
+                                    rawName: "v-validate",
+                                    value: "required",
+                                    expression: "'required'"
+                                  }
+                                ],
+                                attrs: {
+                                  label: "รุ่นที่*",
+                                  "data-vv-name": "lastname",
+                                  "error-messages": _vm.errors.collect(
+                                    "lastname"
+                                  )
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "", sm12: "", md12: "" } },
+                            [
+                              _c("v-text-field", {
+                                directives: [
+                                  {
+                                    name: "validate",
+                                    rawName: "v-validate",
+                                    value: "required",
+                                    expression: "'required'"
+                                  }
+                                ],
+                                attrs: {
+                                  label: "ชื่อหลักสูตร*",
+                                  "data-vv-name": "firstname",
+                                  "error-messages": _vm.errors.collect(
+                                    "firstname"
+                                  )
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "", sm12: "", md12: "" } },
+                            [
+                              _c("v-text-field", {
+                                directives: [
+                                  {
+                                    name: "validate",
+                                    rawName: "v-validate",
+                                    value: "required",
+                                    expression: "'required'"
+                                  }
+                                ],
+                                attrs: {
+                                  label: "วิทยากรผู้บรรยาย*",
+                                  "data-vv-name": "code",
+                                  "error-messages": _vm.errors.collect("code")
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "", sm12: "", md12: "" } },
+                            [
+                              _c("v-text-field", {
+                                directives: [
+                                  {
+                                    name: "validate",
+                                    rawName: "v-validate",
+                                    value: "required",
+                                    expression: "'required'"
+                                  }
+                                ],
+                                attrs: {
+                                  label: "สถานที่จัดอบรม*",
+                                  "data-vv-name": "education",
+                                  "error-messages": _vm.errors.collect(
+                                    "education"
+                                  )
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "", sm6: "", md6: "" } },
+                            [
+                              _c("v-text-field", {
+                                directives: [
+                                  {
+                                    name: "validate",
+                                    rawName: "v-validate",
+                                    value: "required",
+                                    expression: "'required'"
+                                  }
+                                ],
+                                attrs: {
+                                  label: "จำนวนผู้เข้าอบรม*",
+                                  "data-vv-name": "education",
+                                  "error-messages": _vm.errors.collect(
+                                    "education"
+                                  )
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "", sm6: "", md6: "" } },
+                            [
+                              _c("v-text-field", {
+                                directives: [
+                                  {
+                                    name: "validate",
+                                    rawName: "v-validate",
+                                    value: "required",
+                                    expression: "'required'"
+                                  }
+                                ],
+                                attrs: {
+                                  label: "ค่าใช้จ่ายรวม*",
+                                  "data-vv-name": "education",
+                                  "error-messages": _vm.errors.collect(
+                                    "education"
+                                  )
+                                }
+                              })
                             ],
                             1
                           )
@@ -52198,15 +52238,6 @@ var render = function() {
                 "v-card-actions",
                 [
                   _c("v-spacer"),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { color: "blue darken-1", flat: "" },
-                      on: { click: _vm.close }
-                    },
-                    [_vm._v("ยกเลิก")]
-                  ),
                   _vm._v(" "),
                   _c(
                     "v-btn",
@@ -92354,9 +92385,7 @@ component.options.__file = "resources/js/components/page/saveTraining.vue"
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_saveTraining_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./saveTraining.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/page/saveTraining.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_saveTraining_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_saveTraining_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_saveTraining_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_saveTraining_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_saveTraining_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default.a); 
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_saveTraining_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 

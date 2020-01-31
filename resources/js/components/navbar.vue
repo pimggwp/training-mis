@@ -92,7 +92,7 @@ export default {
         {
           title: "บันทึกข้อมูลการฝึกอบรม",
           icon: "assignment_turned_in",
-          link: "/product"
+          link: "/training-save"
         },
         {
           title: "ประวัติการฝึกอบรมรายบุคคล",
@@ -115,47 +115,47 @@ export default {
           link: "/user"
         }
       ],
-      itemsStaff: [
-        // { title: "หน้าแรก", icon: "dashboard", link: "/" },
-        {
-          title: "รายการสินค้า",
-          icon: "shopping_cart",
-          link: "/product"
-        },
-        {
-          title: "ทำรายการ",
-          icon: "assignment_turned_in",
-          link: "/transaction-staff"
-        },
-        {
-          title: "ปฏิทินกำหนดการ",
-          icon: "date_range",
-          link: "/event"
-        }
-      ],
-      itemsUser: [
-        // { title: "หน้าแรก", icon: "dashboard", link: "/" },
-        {
-          title: "รายการสินค้า",
-          icon: "shopping_cart",
-          link: "/product"
-        },
-        {
-          title: "ดูรายงานการซื้อ",
-          icon: "description",
-          link: "/reportuser"
-        },
-        {
-          title: "ดูยอดปันผล/เฉลี่ยคืน",
-          icon: "monetization_on",
-          link: "/dividend-for-user"
-        },
-        {
-          title: "ปฏิทินกำหนดการ",
-          icon: "date_range",
-          link: "/event"
-        }
-      ],
+      // itemsStaff: [
+      //   // { title: "หน้าแรก", icon: "dashboard", link: "/" },
+      //   {
+      //     title: "รายการสินค้า",
+      //     icon: "shopping_cart",
+      //     link: "/product"
+      //   },
+      //   {
+      //     title: "ทำรายการ",
+      //     icon: "assignment_turned_in",
+      //     link: "/transaction-staff"
+      //   },
+      //   {
+      //     title: "ปฏิทินกำหนดการ",
+      //     icon: "date_range",
+      //     link: "/event"
+      //   }
+      // ],
+      // itemsUser: [
+      //   // { title: "หน้าแรก", icon: "dashboard", link: "/" },
+      //   {
+      //     title: "รายการสินค้า",
+      //     icon: "shopping_cart",
+      //     link: "/product"
+      //   },
+      //   {
+      //     title: "ดูรายงานการซื้อ",
+      //     icon: "description",
+      //     link: "/reportuser"
+      //   },
+      //   {
+      //     title: "ดูยอดปันผล/เฉลี่ยคืน",
+      //     icon: "monetization_on",
+      //     link: "/dividend-for-user"
+      //   },
+      //   {
+      //     title: "ปฏิทินกำหนดการ",
+      //     icon: "date_range",
+      //     link: "/event"
+      //   }
+      // ],
       mini: true,
       right: null
     };

@@ -1,24 +1,22 @@
 <?php
-namespace App\Http\Controllers;
 
+namespace App\Http\Controllers\Api;
+
+use App\Course;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Product;
 
-class ProductController extends Controller
+class CourseController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index()
     {
-        return view('page/product');
+        $course = Course::orderBy('created_at', 'asc')->get();
+        return response()->json($events);
     }
 
     /**

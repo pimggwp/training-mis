@@ -8,78 +8,16 @@
       </h2>
       <br />
       <v-card>
-        <v-card-title>
-          <h2 class="txt-title">{{ formTitle }}</h2>
-        </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
             <v-layout wrap>
-              <v-flex xs12 sm6 md4>
-                <v-text-field
-                  v-validate="'required'"
-                  label="ชื่อ*"
-                  data-vv-name="firstname"
-                  :error-messages="errors.collect('firstname')"
-                ></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-text-field
-                  v-validate="'required'"
-                  label="นามสกุล*"
-                  data-vv-name="lastname"
-                  :error-messages="errors.collect('lastname')"
-                ></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-select
-                  item-text="title"
-                  label="เพศ*"
-                  v-validate="'required'"
-                  data-vv-name="sex"
-                  :error-messages="errors.collect('sex')"
-                  required
-                ></v-select>
-              </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-text-field
-                  v-validate="'required'"
-                  label="รหัส*"
-                  data-vv-name="code"
-                  :error-messages="errors.collect('code')"
-                ></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-select
-                  :items="statusTypes"
-                  item-text="title"
-                  label="สถานะ*"
-                  v-validate="'required'"
-                  data-vv-name="type"
-                  :error-messages="errors.collect('type')"
-                  required
-                ></v-select>
-              </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-text-field
-                  v-validate="'required'"
-                  label="ระดับชั้น*"
-                  data-vv-name="education"
-                  :error-messages="errors.collect('education')"
-                ></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="คะแนน"></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="จำนวนหุ้น"></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm12 md12>
+              <v-flex xs12 sm6 md6>
                 <v-menu
                   ref="menu"
                   v-model="menu"
                   :close-on-content-click="false"
                   :nudge-right="40"
-                  :return-value.sync="editItem.date"
+                  :return-value.sync="date"
                   lazy
                   transition="scale-transition"
                   offset-y
@@ -88,31 +26,94 @@
                 >
                   <template v-slot:activator="{ on }">
                     <v-text-field
-                      label="เลือกวันเดือนปี*"
+                      label="วันที่จัดอบรม*"
                       prepend-icon="event"
                       v-validate="'required'"
                       :error-messages="errors.collect('date')"
                       data-vv-name="date"
                       readonly
                       v-on="on"
+                      v-model="date"
                       required
                     ></v-text-field>
                   </template>
-                  <v-date-picker v-model="editItem.date" no-title scrollable locale="th">
+                  <v-date-picker v-model="date" no-title scrollable locale="th">
                     <v-spacer></v-spacer>
                     <v-btn flat color="primary" @click="menu = false">ยกเลิก</v-btn>
-                    <v-btn flat color="primary" @click="$refs.menu.save(editItem.date)">ตกลง</v-btn>
+                    <v-btn flat color="primary" @click="$refs.menu.save(date)">ตกลง</v-btn>
                   </v-date-picker>
                 </v-menu>
               </v-flex>
-              <v-flex xs12>
-                <v-text-field
-                  v-if="editIndex=='-1'"
-                  v-model="editItem.bdate"
+              <v-flex xs12 sm6 md6>
+                <v-select
+                  :items="types"
+                  v-model="typeSelect"
+                  item-text="types"
+                  label="ประเภท*"
                   v-validate="'required'"
-                  label="วันเดือนปีเกิด*"
-                  data-vv-name="bdate"
-                  :error-messages="errors.collect('bdate')"
+                  data-vv-name="types"
+                  :error-messages="errors.collect('types')"
+                  required
+                ></v-select>
+              </v-flex>
+              <v-flex xs12 sm6 md6>
+                <v-select
+                  :items="courseCode"
+                  v-model="courseCodeSelect"
+                  item-text="course_code"
+                  label="รหัสหลักสูตร*"
+                  v-validate="'required'"
+                  data-vv-name="course_code"
+                  :error-messages="errors.collect('course_code')"
+                  required
+                ></v-select>
+              </v-flex>
+              <v-flex xs12 sm6 md6>
+                <v-text-field
+                  v-validate="'required'"
+                  label="รุ่นที่*"
+                  data-vv-name="lastname"
+                  :error-messages="errors.collect('lastname')"
+                ></v-text-field>
+              </v-flex>
+              <v-flex xs12 sm12 md12>
+                <v-text-field
+                  v-validate="'required'"
+                  label="ชื่อหลักสูตร*"
+                  data-vv-name="firstname"
+                  :error-messages="errors.collect('firstname')"
+                ></v-text-field>
+              </v-flex>
+              <v-flex xs12 sm12 md12>
+                <v-text-field
+                  v-validate="'required'"
+                  label="วิทยากรผู้บรรยาย*"
+                  data-vv-name="code"
+                  :error-messages="errors.collect('code')"
+                ></v-text-field>
+              </v-flex>
+              <v-flex xs12 sm12 md12>
+                <v-text-field
+                  v-validate="'required'"
+                  label="สถานที่จัดอบรม*"
+                  data-vv-name="education"
+                  :error-messages="errors.collect('education')"
+                ></v-text-field>
+              </v-flex>
+              <v-flex xs12 sm6 md6>
+                <v-text-field
+                  v-validate="'required'"
+                  label="จำนวนผู้เข้าอบรม*"
+                  data-vv-name="education"
+                  :error-messages="errors.collect('education')"
+                ></v-text-field>
+              </v-flex>
+              <v-flex xs12 sm6 md6>
+                <v-text-field
+                  v-validate="'required'"
+                  label="ค่าใช้จ่ายรวม*"
+                  data-vv-name="education"
+                  :error-messages="errors.collect('education')"
                 ></v-text-field>
               </v-flex>
             </v-layout>
@@ -120,21 +121,37 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" flat @click="close">ยกเลิก</v-btn>
           <v-btn color="blue darken-1" flat @click="save">บันทึก</v-btn>
         </v-card-actions>
       </v-card>
     </v-flex>
-    <!-- <v-snackbar class="txt-title" v-model="snackbar" :color="color" :timeout="3000">
-      บันทึกสำเร็จแล้ว
-      <v-btn dark flat @click="snackbar = false">
-        <v-icon>close</v-icon>
-      </v-btn>
-    </v-snackbar>-->
   </v-layout>
 </template>
 
 <script>
+export default {
+  mounted() {
+    this.getCourseCode();
+  },
+  data: () => ({
+    date: null,
+    modal: false,
+    menu: false,
+    events: [],
+    types: ["InHouse", "Public", "Other"],
+    typeSelect: null,
+    courseCodeSelect: null,
+    courseCode: []
+  }),
+  methods: {
+    getCourseCode() {
+      axios.get("api/").then(response => {
+        this.users = response.data;
+      });
+    },
+    save() {}
+  }
+};
 </script>
 
 
