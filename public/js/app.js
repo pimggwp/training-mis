@@ -2154,7 +2154,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   mounted: function mounted() {
     this.getEventData();
     this.getUserData();
-    console.log("events", this.events);
   },
   $_veeValidate: {
     validator: "new"
@@ -2234,7 +2233,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     save: function save() {
-      console.log();
       this.$validator.validateAll(this.editItem);
 
       if (this.editIndex > -1) {
@@ -2334,6 +2332,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
 //
 //
 //
@@ -2503,8 +2506,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   watch: {
     courseCodeSelect: function courseCodeSelect(newValue) {
-      this.courseName = newValue.name;
-      this.instName = newValue.instructor;
+      this.course_name = newValue.name;
+      this.inst_name = newValue.instructor;
     },
     total: function total(newValue) {
       this.employees = [];
@@ -2522,7 +2525,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   data: function data() {
-    return {
+    var _ref;
+
+    return _ref = {
       snack: false,
       snackColor: "",
       snackText: "",
@@ -2535,37 +2540,34 @@ __webpack_require__.r(__webpack_exports__);
       typeSelect: null,
       courseCodeSelect: null,
       courses: [],
-      courseName: null,
-      instName: null,
-      headers: [{
-        text: "ลำดับ",
-        align: "left",
-        sortable: false,
-        value: "index"
-      }, {
-        text: "รหัส",
-        sortable: false,
-        value: "code"
-      }, {
-        text: "แผนก",
-        sortable: false,
-        value: "Department"
-      }, {
-        text: "ชื่อ",
-        sortable: false,
-        value: "firstname"
-      }, {
-        text: "นามสกุล",
-        sortable: false,
-        value: "lastname"
-      }, {
-        text: "ตำแหน่ง",
-        sortable: false,
-        value: "position"
-      }],
-      employees: [],
-      users: []
-    };
+      course_name: null,
+      inst_name: null
+    }, _defineProperty(_ref, "total", 0), _defineProperty(_ref, "location", null), _defineProperty(_ref, "number", 0), _defineProperty(_ref, "money", 0), _defineProperty(_ref, "headers", [{
+      text: "ลำดับ",
+      align: "left",
+      sortable: false,
+      value: "index"
+    }, {
+      text: "รหัส",
+      sortable: false,
+      value: "code"
+    }, {
+      text: "แผนก",
+      sortable: false,
+      value: "Department"
+    }, {
+      text: "ชื่อ",
+      sortable: false,
+      value: "firstname"
+    }, {
+      text: "นามสกุล",
+      sortable: false,
+      value: "lastname"
+    }, {
+      text: "ตำแหน่ง",
+      sortable: false,
+      value: "position"
+    }]), _defineProperty(_ref, "employees", []), _defineProperty(_ref, "users", []), _ref;
   },
   methods: {
     getCourseCode: function getCourseCode() {
@@ -2586,6 +2588,19 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     save: function save() {
+      axios.post("/api/event", {
+        date: this.date,
+        course_name: this.course_name,
+        type: this.typeSelect,
+        number: this.number,
+        location: this.location,
+        total: this.total,
+        money: this.money
+      }).then(function (response) {
+        console.log(response);
+      }, function (error) {
+        console.log(error);
+      });
       this.snack = true;
       this.snackColor = "success";
       this.snackText = "บันทึกแล้ว";
@@ -2839,12 +2854,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       dialog: false,
       editid: null
     }, _defineProperty(_ref, "type", ""), _defineProperty(_ref, "editIndex", -1), _defineProperty(_ref, "editItem", {
-      title: "",
-      details: "",
+      course_name: "",
+      location: "",
       date: ""
     }), _defineProperty(_ref, "defItem", {
-      title: "",
-      details: "",
+      course_name: "",
+      location: "",
       date: ""
     }), _defineProperty(_ref, "users", []), _ref;
   },
@@ -2857,7 +2872,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     open: function open(event) {
-      alert(event.title);
+      alert(event.course_name);
     },
     goTo: function goTo(date) {
       var newStart = date.substr(0, 7) + "-01";
@@ -2888,7 +2903,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       axios.post("/api/emailNoti", {
         email: email,
         name: fullname,
-        event_title: this.editItem.title
+        event_title: this.editItem.course_name
       }).then(function (response) {
         console.log(response);
       }, function (error) {
@@ -2900,8 +2915,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (this.editIndex > -1) {
         Object.assign(this.events[this.editIndex], this.editItem) && axios.put("/api/event/" + this.editid, {
-          title: this.editItem.title,
-          details: this.editItem.details,
+          course_name: this.editItem.course_name,
+          location: this.editItem.location,
           date: this.editItem.date
         });
         this.snackbar = true;
@@ -2909,8 +2924,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       } else {
         if (this.checkInput) {
           this.events.push(this.editItem) && axios.post("/api/event", {
-            title: this.editItem.title,
-            details: this.editItem.details,
+            course_name: this.editItem.course_name,
+            location: this.editItem.location,
             date: this.editItem.date
           }).then(function (response) {
             console.log(response);
@@ -2956,7 +2971,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (this.editIndex === -1) return true;else return false;
     },
     checkInput: function checkInput() {
-      if (this.editItem.title && this.editItem.details && this.editItem.date) {
+      if (this.editItem.course_name && this.editItem.location && this.editItem.date) {
         return true;
       } else {
         return false;
@@ -52115,6 +52130,13 @@ var render = function() {
                                   label: "รุ่นที่*",
                                   "data-vv-name": "number",
                                   "error-messages": _vm.errors.collect("number")
+                                },
+                                model: {
+                                  value: _vm.number,
+                                  callback: function($$v) {
+                                    _vm.number = $$v
+                                  },
+                                  expression: "number"
                                 }
                               })
                             ],
@@ -52128,11 +52150,11 @@ var render = function() {
                               _c("v-text-field", {
                                 attrs: { label: "ชื่อหลักสูตร*", disabled: "" },
                                 model: {
-                                  value: _vm.courseName,
+                                  value: _vm.course_name,
                                   callback: function($$v) {
-                                    _vm.courseName = $$v
+                                    _vm.course_name = $$v
                                   },
-                                  expression: "courseName"
+                                  expression: "course_name"
                                 }
                               })
                             ],
@@ -52149,11 +52171,11 @@ var render = function() {
                                   disabled: ""
                                 },
                                 model: {
-                                  value: _vm.instName,
+                                  value: _vm.inst_name,
                                   callback: function($$v) {
-                                    _vm.instName = $$v
+                                    _vm.inst_name = $$v
                                   },
-                                  expression: "instName"
+                                  expression: "inst_name"
                                 }
                               })
                             ],
@@ -52175,10 +52197,17 @@ var render = function() {
                                 ],
                                 attrs: {
                                   label: "สถานที่จัดอบรม*",
-                                  "data-vv-name": "education",
+                                  "data-vv-name": "location",
                                   "error-messages": _vm.errors.collect(
-                                    "education"
+                                    "location"
                                   )
+                                },
+                                model: {
+                                  value: _vm.location,
+                                  callback: function($$v) {
+                                    _vm.location = $$v
+                                  },
+                                  expression: "location"
                                 }
                               })
                             ],
@@ -52201,7 +52230,7 @@ var render = function() {
                                 attrs: {
                                   label: "จำนวนผู้เข้าอบรม*",
                                   "data-vv-name": "total",
-                                  type: "number",
+                                  type: "total",
                                   "error-messages": _vm.errors.collect("total")
                                 },
                                 model: {
@@ -52231,10 +52260,15 @@ var render = function() {
                                 ],
                                 attrs: {
                                   label: "ค่าใช้จ่ายรวม*",
-                                  "data-vv-name": "education",
-                                  "error-messages": _vm.errors.collect(
-                                    "education"
-                                  )
+                                  "data-vv-name": "money",
+                                  "error-messages": _vm.errors.collect("money")
+                                },
+                                model: {
+                                  value: _vm.money,
+                                  callback: function($$v) {
+                                    _vm.money = $$v
+                                  },
+                                  expression: "money"
                                 }
                               })
                             ],
@@ -52642,7 +52676,9 @@ var render = function() {
                                                         },
                                                         [
                                                           _vm._v(
-                                                            _vm._s(item.title)
+                                                            _vm._s(
+                                                              item.course_name
+                                                            )
                                                           )
                                                         ]
                                                       ),
@@ -52651,7 +52687,9 @@ var render = function() {
                                                         "v-list-tile-sub-title",
                                                         [
                                                           _vm._v(
-                                                            _vm._s(item.details)
+                                                            _vm._s(
+                                                              item.location
+                                                            )
                                                           )
                                                         ]
                                                       )
@@ -52746,7 +52784,7 @@ var render = function() {
                                                                                     "my-event",
                                                                                   domProps: {
                                                                                     innerHTML: _vm._s(
-                                                                                      event.title
+                                                                                      event.course_name
                                                                                     )
                                                                                   }
                                                                                 },
@@ -52831,7 +52869,7 @@ var render = function() {
                                                                             "txt-title",
                                                                           domProps: {
                                                                             innerHTML: _vm._s(
-                                                                              event.title
+                                                                              event.course_name
                                                                             )
                                                                           }
                                                                         }
@@ -52898,7 +52936,7 @@ var render = function() {
                                                                         {
                                                                           domProps: {
                                                                             innerHTML: _vm._s(
-                                                                              event.details
+                                                                              event.location
                                                                             )
                                                                           }
                                                                         }
@@ -53023,22 +53061,22 @@ var render = function() {
                                             attrs: {
                                               label: "ชื่อกิจกรรม*",
                                               "error-messages": _vm.errors.collect(
-                                                "title"
+                                                "course_name"
                                               ),
-                                              "data-vv-name": "title",
+                                              "data-vv-name": "course_name",
                                               required: "",
                                               attach: ""
                                             },
                                             model: {
-                                              value: _vm.editItem.title,
+                                              value: _vm.editItem.course_name,
                                               callback: function($$v) {
                                                 _vm.$set(
                                                   _vm.editItem,
-                                                  "title",
+                                                  "course_name",
                                                   $$v
                                                 )
                                               },
-                                              expression: "editItem.title"
+                                              expression: "editItem.course_name"
                                             }
                                           })
                                         ],
@@ -53065,23 +53103,23 @@ var render = function() {
                                               }
                                             ],
                                             attrs: {
-                                              label: "รายละเอียด*",
+                                              label: "สถานที่*",
                                               "error-messages": _vm.errors.collect(
-                                                "details"
+                                                "location"
                                               ),
-                                              "data-vv-name": "details",
+                                              "data-vv-name": "location",
                                               required: ""
                                             },
                                             model: {
-                                              value: _vm.editItem.details,
+                                              value: _vm.editItem.location,
                                               callback: function($$v) {
                                                 _vm.$set(
                                                   _vm.editItem,
-                                                  "details",
+                                                  "location",
                                                   $$v
                                                 )
                                               },
-                                              expression: "editItem.details"
+                                              expression: "editItem.location"
                                             }
                                           })
                                         ],

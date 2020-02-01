@@ -71,6 +71,7 @@
               </v-flex>
               <v-flex xs12 sm6 md6>
                 <v-text-field
+                  v-model="number"
                   v-validate="'required'"
                   label="รุ่นที่*"
                   data-vv-name="number"
@@ -78,17 +79,18 @@
                 ></v-text-field>
               </v-flex>
               <v-flex xs12 sm12 md12>
-                <v-text-field v-model="courseName" label="ชื่อหลักสูตร*" disabled></v-text-field>
+                <v-text-field v-model="course_name" label="ชื่อหลักสูตร*" disabled></v-text-field>
               </v-flex>
               <v-flex xs12 sm12 md12>
-                <v-text-field v-model="instName" label="วิทยากรผู้บรรยาย*" disabled></v-text-field>
+                <v-text-field v-model="inst_name" label="วิทยากรผู้บรรยาย*" disabled></v-text-field>
               </v-flex>
               <v-flex xs12 sm12 md12>
                 <v-text-field
+                  v-model="location"
                   v-validate="'required'"
                   label="สถานที่จัดอบรม*"
-                  data-vv-name="education"
-                  :error-messages="errors.collect('education')"
+                  data-vv-name="location"
+                  :error-messages="errors.collect('location')"
                 ></v-text-field>
               </v-flex>
               <v-flex xs12 sm6 md6>
@@ -97,16 +99,17 @@
                   v-validate="'required'"
                   label="จำนวนผู้เข้าอบรม*"
                   data-vv-name="total"
-                  type="number"
+                  type="total"
                   :error-messages="errors.collect('total')"
                 ></v-text-field>
               </v-flex>
               <v-flex xs12 sm6 md6>
                 <v-text-field
+                  v-model="money"
                   v-validate="'required'"
                   label="ค่าใช้จ่ายรวม*"
-                  data-vv-name="education"
-                  :error-messages="errors.collect('education')"
+                  data-vv-name="money"
+                  :error-messages="errors.collect('money')"
                 ></v-text-field>
               </v-flex>
             </v-layout>
@@ -168,8 +171,8 @@ export default {
   },
   watch: {
     courseCodeSelect: function(newValue) {
-      this.courseName = newValue.name;
-      this.instName = newValue.instructor;
+      this.course_name = newValue.name;
+      this.inst_name = newValue.instructor;
     },
     total: function(newValue) {
       this.employees = [];
@@ -198,8 +201,12 @@ export default {
     typeSelect: null,
     courseCodeSelect: null,
     courses: [],
-    courseName: null,
-    instName: null,
+    course_name: null,
+    inst_name: null,
+    total: 0,
+    location: null,
+    number: 0,
+    money: 0,
     headers: [
       {
         text: "ลำดับ",
@@ -229,6 +236,24 @@ export default {
       });
     },
     save() {
+      axios
+        .post("/api/event", {
+          date: this.date,
+          course_name: this.course_name,
+          type: this.typeSelect,
+          number: this.number,
+          location: this.location,
+          total: this.total,
+          money: this.money
+        })
+        .then(
+          response => {
+            console.log(response);
+          },
+          error => {
+            console.log(error);
+          }
+        );
       this.snack = true;
       this.snackColor = "success";
       this.snackText = "บันทึกแล้ว";
@@ -242,12 +267,12 @@ export default {
       let userSel = this.users.filter(user => {
         return user.code == code;
       });
-      console.log(userSel[0].firstname)
-      if(userSel){
-        this.employees[index-1].Department = userSel[0].Department
-        this.employees[index-1].firstname = userSel[0].firstname
-        this.employees[index-1].lastname = userSel[0].lastname
-        this.employees[index-1].position = userSel[0].position
+      console.log(userSel[0].firstname);
+      if (userSel) {
+        this.employees[index - 1].Department = userSel[0].Department;
+        this.employees[index - 1].firstname = userSel[0].firstname;
+        this.employees[index - 1].lastname = userSel[0].lastname;
+        this.employees[index - 1].position = userSel[0].position;
       }
     }
   }

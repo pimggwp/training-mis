@@ -36,8 +36,8 @@
                       <template v-for="(item, index) in eventsFil">
                         <v-list-tile :key="index" avatar ripple @click="goTo(item.date)">
                           <v-list-tile-content>
-                            <v-list-tile-title class="txt-title">{{ item.title }}</v-list-tile-title>
-                            <v-list-tile-sub-title>{{ item.details }}</v-list-tile-sub-title>
+                            <v-list-tile-title class="txt-title">{{ item.course_name }}</v-list-tile-title>
+                            <v-list-tile-sub-title>{{ item.location }}</v-list-tile-sub-title>
                           </v-list-tile-content>
                         </v-list-tile>
                         <v-divider v-if="index + 1 < events.length" :key="`divider-${index}`"></v-divider>
@@ -66,7 +66,7 @@
                                   v-ripple
                                   class="my-event"
                                   v-on="on"
-                                  v-html="event.title"
+                                  v-html="event.course_name"
                                 ></div>
                               </template>
                               <v-card color="grey lighten-4" min-width="350px" flat>
@@ -78,7 +78,7 @@
                                   >
                                     <v-icon>edit</v-icon>
                                   </v-btn>
-                                  <v-toolbar-title class="txt-title" v-html="event.title"></v-toolbar-title>
+                                  <v-toolbar-title class="txt-title" v-html="event.course_name"></v-toolbar-title>
                                   <v-spacer></v-spacer>
                                   <v-btn
                                     icon
@@ -89,7 +89,7 @@
                                   </v-btn>
                                 </v-toolbar>
                                 <v-card-title primary-title>
-                                  <span v-html="event.details"></span>
+                                  <span v-html="event.location"></span>
                                 </v-card-title>
                                 <v-card-actions>
                                   <v-btn flat color="secondary">Close</v-btn>
@@ -115,22 +115,22 @@
                   <v-layout wrap>
                     <v-flex xs12 sm12 md12>
                       <v-text-field
-                        v-model="editItem.title"
+                        v-model="editItem.course_name"
                         label="ชื่อกิจกรรม*"
                         v-validate="'required'"
-                        :error-messages="errors.collect('title')"
-                        data-vv-name="title"
+                        :error-messages="errors.collect('course_name')"
+                        data-vv-name="course_name"
                         required
                         attach
                       ></v-text-field>
                     </v-flex>
                     <v-flex xs12 sm12 md12>
                       <v-text-field
-                        v-model="editItem.details"
-                        label="รายละเอียด*"
+                        v-model="editItem.location"
+                        label="สถานที่*"
                         v-validate="'required'"
-                        :error-messages="errors.collect('details')"
-                        data-vv-name="details"
+                        :error-messages="errors.collect('location')"
+                        data-vv-name="location"
                         required
                       ></v-text-field>
                     </v-flex>
@@ -214,13 +214,13 @@ export default {
       type: "",
       editIndex: -1,
       editItem: {
-        title: "",
-        details: "",
+        course_name: "",
+        location: "",
         date: ""
       },
       defItem: {
-        title: "",
-        details: "",
+        course_name: "",
+        location: "",
         date: ""
       },
       users: []
@@ -233,7 +233,7 @@ export default {
       });
     },
     open(event) {
-      alert(event.title);
+      alert(event.course_name);
     },
     goTo(date) {
       var newStart = date.substr(0, 7) + "-01";
@@ -265,7 +265,7 @@ export default {
         .post("/api/emailNoti", {
           email: email,
           name: fullname,
-          event_title: this.editItem.title
+          event_title: this.editItem.course_name
         })
         .then(
           response => {
@@ -281,8 +281,8 @@ export default {
       if (this.editIndex > -1) {
         Object.assign(this.events[this.editIndex], this.editItem) &&
           axios.put("/api/event/" + this.editid, {
-            title: this.editItem.title,
-            details: this.editItem.details,
+            course_name: this.editItem.course_name,
+            location: this.editItem.location,
             date: this.editItem.date
           });
         this.snackbar = true;
@@ -292,8 +292,8 @@ export default {
           this.events.push(this.editItem) &&
             axios
               .post("/api/event", {
-                title: this.editItem.title,
-                details: this.editItem.details,
+                course_name: this.editItem.course_name,
+                location: this.editItem.location,
                 date: this.editItem.date
               })
               .then(
@@ -344,7 +344,7 @@ export default {
       else return false;
     },
     checkInput: function() {
-      if (this.editItem.title && this.editItem.details && this.editItem.date) {
+      if (this.editItem.course_name && this.editItem.location && this.editItem.date) {
         return true;
       } else {
         return false;

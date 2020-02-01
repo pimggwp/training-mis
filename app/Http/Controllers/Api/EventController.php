@@ -39,9 +39,13 @@ class EventController extends Controller
     public function store(Request $request)
     {
         $event = new Event();
-        $event->title = $request->get('title');
-        $event->details = $request->get('details');
+        $event->course_name = $request->get('course_name');
         $event->date = $request->get('date');
+        $event->type = $request->get('type');
+        $event->number = $request->get('number');
+        $event->location = $request->get('location');
+        $event->total = $request->get('total');
+        $event->money = $request->get('money');
         $event->save();
         return response()->json($event);
     }
@@ -78,9 +82,13 @@ class EventController extends Controller
     public function update(Request $request, $id)
     {
         $event = Event::find($id);
-        $event->title = $request->get('title');
-        $event->details = $request->get('details');
+        $event->course_name = $request->get('course_name');
         $event->date = $request->get('date');
+        $event->type = $request->get('type');
+        $event->number = $request->get('number');
+        $event->location = $request->get('location');
+        $event->total = $request->get('total');
+        $event->money = $request->get('money');
         $event->update();
         return response()->json($event);
     }

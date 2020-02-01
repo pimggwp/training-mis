@@ -193,7 +193,6 @@ export default {
   mounted() {
     this.getEventData();
     this.getUserData();
-    console.log("events", this.events);
   },
   $_veeValidate: {
     validator: "new"
@@ -279,7 +278,6 @@ export default {
         );
     },
     save() {
-      console.log();
       this.$validator.validateAll(this.editItem);
       if (this.editIndex > -1) {
         Object.assign(this.events[this.editIndex], this.editItem) &&
