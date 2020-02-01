@@ -43,14 +43,19 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $user = new User();
+        $user->name_title = $request->get('name_title');
         $user->firstname = $request->get('firstname');
         $user->lastname = $request->get('lastname');
-        $user->code = $request->get('code');
-        $user->type = $request->get('type');
         $user->sex = $request->get('sex');
-        $user->password = bcrypt($request->get('bdate'));
+        $user->code = $request->get('code');
+        $user->department = $request->get('department');
+        $user->position = $request->get('position');
+        $user->email = $request->get('email');
+        $user->start_date = $request->get('start_date');
+        $user->password = bcrypt($request->get('password'));
         $user->save();
         return response()->json($user);
+
     }
 
     /**
@@ -85,12 +90,14 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::find($id);
+        $user->name_title = $request->get('name_title');
         $user->firstname = $request->get('firstname');
         $user->lastname = $request->get('lastname');
         $user->code = $request->get('code');
-        $user->type = $request->get('type');
         $user->sex = $request->get('sex');
-        $user->password = bcrypt($request->get('bdate'));
+        $user->department = $request->get('department');
+        $user->position = $request->get('position');
+        $user->email = $request->get('email');
         $user->update();
         return response()->json($user);
     }

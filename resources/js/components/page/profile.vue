@@ -27,34 +27,19 @@
                 </v-avatar>
               </v-flex>
               <v-flex xs12 sm12 md10>
-                <p
+                <!-- <p
                   class="txt-title"
                   style="color:grey;"
                 >ชื่อ {{name_title}}{{usernow.firstname}} นามสกุล {{usernow.lastname}} &emsp; ชั้น{{usernow.education}}</p>
                 <p
                   class="txt-title"
                   style="color:grey;"
-                >สถานะ นักเรียน &emsp; จำนวนแต้มสะสม {{usernow.point}} คะแนน &emsp; จำนวนหุ้น {{usernow.unit}} หน่วย</p>
+                >สถานะ นักเรียน &emsp; จำนวนแต้มสะสม {{usernow.point}} คะแนน &emsp; จำนวนหุ้น {{usernow.unit}} หน่วย</p> -->
                 <p
                   v-if="usernow.email"
                   class="txt-title"
                   style="color:grey;"
                 >E-mail {{usernow.email}}</p>
-                <div v-if="!usernow.email && !emailConfirm">
-                  <p class="txt-title" style="color:red;">
-                    <v-icon color="blue">new_releases</v-icon>&nbsp;ขณะนี้คุณยังไม่ได้กรอกอีเมล์สำหรับแจ้งข่าวสารจากสหกรณ์โรงเรียน หากต้องการสมัครรับข่าวสารผ่านอีเมล์ กรุณากรอกอีเมล์ข้างล่าง
-                    <v-form ref="form" v-model="valid">
-                      <v-layout row wrap mt-2 justify-center>
-                        <v-flex xs12 sm12 md5>
-                          <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
-                        </v-flex>
-                        <v-flex xs12 sm12 md3>
-                          <v-btn :color="color" :disabled="!valid" @click="validate">ยืนยัน</v-btn>
-                        </v-flex>
-                      </v-layout>
-                    </v-form>
-                  </p>
-                </div>
                 <p v-if="emailConfirm" class="txt-title" style="color:grey;">E-mail {{emailConfirm}}</p>
               </v-flex>
             </v-layout>
@@ -103,14 +88,5 @@ export default {
       }
     }
   },
-  computed: {
-    name_title: function() {
-      if (this.usernow.sex == "ชาย") return "เด็กชาย";
-      else return "เด็กหญิง";
-    },
-    pageShow() {
-      return 'U2'
-    }
-  }
 };
 </script>

@@ -25,6 +25,18 @@
               <v-container grid-list-md>
                 <v-layout wrap>
                   <v-flex xs12 sm6 md4>
+                    <v-select
+                      :items="name_titles"
+                      v-model="editItem.name_title"
+                      item-text="name_title"
+                      label="คำนำหน้าชื่อ*"
+                      v-validate="'required'"
+                      data-vv-name="name_title"
+                      :error-messages="errors.collect('name_title')"
+                      required
+                    ></v-select>
+                  </v-flex>
+                  <v-flex xs12 sm6 md4>
                     <v-text-field
                       v-validate="'required'"
                       v-model="editItem.firstname"
@@ -64,40 +76,47 @@
                     ></v-text-field>
                   </v-flex>
                   <v-flex xs12 sm6 md4>
+                    <v-autocomplete
+                      :items="statusDepartment"
+                      v-model="editItem.department"
+                      item-text="department"
+                      label="แผนก*"
+                      v-validate="'required'"
+                      data-vv-name="department"
+                      :error-messages="errors.collect('department')"
+                      required
+                    ></v-autocomplete>
+                  </v-flex>
+                  <v-flex xs12 sm6 md4>
                     <v-select
                       :items="statusTypes"
-                      v-model="editItem.type"
-                      item-text="title"
-                      label="สถานะ*"
+                      v-model="editItem.position"
+                      item-text="position"
+                      label="ตำแหน่ง*"
                       v-validate="'required'"
-                      data-vv-name="type"
-                      :error-messages="errors.collect('type')"
+                      data-vv-name="position"
+                      :error-messages="errors.collect('position')"
                       required
                     ></v-select>
                   </v-flex>
-                  <v-flex xs12 sm6 md4>
+                  <v-flex xs12 sm6 md8>
                     <v-text-field
-                      v-model="editItem.education"
+                      v-model="editItem.email"
                       v-validate="'required'"
-                      label="ระดับชั้น*"
-                      data-vv-name="education"
-                      :error-messages="errors.collect('education')"
+                      label="อีเมล*"
+                      data-vv-name="email"
+                      :error-messages="errors.collect('email')"
                     ></v-text-field>
-                  </v-flex>
-                  <v-flex xs12 sm6 md4>
-                    <v-text-field v-model="editItem.point" label="คะแนน"></v-text-field>
-                  </v-flex>
-                  <v-flex xs12 sm6 md4>
-                    <v-text-field v-model="editItem.unit" label="จำนวนหุ้น"></v-text-field>
                   </v-flex>
                   <v-flex xs12>
                     <v-text-field
                       v-if="editIndex=='-1'"
-                      v-model="editItem.bdate"
+                      v-model="editItem.password"
                       v-validate="'required'"
-                      label="วันเดือนปีเกิด*"
-                      data-vv-name="bdate"
-                      :error-messages="errors.collect('bdate')"
+                      label="รหัสผ่าน*"
+                      type="password"
+                      data-vv-name="password"
+                      :error-messages="errors.collect('password')"
                     ></v-text-field>
                   </v-flex>
                 </v-layout>
@@ -131,7 +150,7 @@
           <td>{{ props.item.firstname }}</td>
           <td>{{ props.item.lastname }}</td>
           <td>{{ props.item.code }}</td>
-          <td>{{ props.item.Department }}</td>
+          <td>{{ props.item.department }}</td>
           <td>{{ props.item.position }}</td>
           <td>{{ props.item.email }}</td>
           <td class="justify-center layout px-0">
@@ -163,10 +182,6 @@ export default {
     validator: "new"
   },
   data: () => ({
-    parse_header: [],
-    parse_csv: [],
-    sortOrders: {},
-    sortKey: "",
     pagination: {
       rowsPerPage: 12
     },
@@ -177,36 +192,42 @@ export default {
     selected: "",
     dialog: false,
     dialog2: false,
-    statusTypes: ["staff", "student"],
+    statusTypes: ["General", "Manager", "HR"],
     statusSex: ["ชาย", "หญิง"],
     headers: [
       { text: "คำนำหน้าชื่อ", sortable: false, value: "name_title" },
       { text: "ชื่อ", sortable: false, value: "firstname" },
       { text: "นามสกุล", sortable: false, value: "lastname" },
       { text: "รหัส", value: "code" },
-      { text: "แผนก", sortable: false, value: "Department" },
+      { text: "แผนก", sortable: false, value: "department" },
       { text: "ตำแหน่ง", value: "position" },
       { text: "อีเมล", value: "email" }
     ],
     users: [],
+    name_titles: ["นาย", "นาง", "นางสาว"],
+    statusDepartment: ["FIN", "PDD", "PCD", "HRD"],
     editIndex: -1,
     editItem: {
       name_title: "",
       firstname: "",
       lastname: "",
+      sex: "",
       code: "",
-      Department: "",
+      department: "",
       position: "",
-      email: ""
+      email: "",
+      password: ""
     },
     defaultItem: {
       name_title: "",
       firstname: "",
       lastname: "",
+      sex: "",
       code: "",
-      Department: "",
+      department: "",
       position: "",
-      email: ""
+      email: "",
+      password: ""
     }
   }),
   filters: {
@@ -218,27 +239,29 @@ export default {
     formTitle() {
       return this.editIndex === -1 ? "เพิ่มสมาชิกใหม่" : "แก้ไขข้อมูลสมาชิก";
     },
-    checkInput: function() {
-      if (
-        this.editItem.name_title &&
-        this.editItem.firstname &&
-        this.editItem.lastname &&
-        this.editItem.code &&
-        this.editItem.Department &&
-        this.editItem.position &&
-        this.editItem.email
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    },
     filterUsers() {
       return this.users.filter(user => {
         return (
           user.firstname.match(this.search) || user.lastname.match(this.search)
         );
       });
+    },
+    checkInput: function() {
+      if (
+        this.editItem.name_title &&
+        this.editItem.firstname &&
+        this.editItem.lastname &&
+        this.editItem.sex &&
+        this.editItem.code &&
+        this.editItem.department &&
+        this.editItem.position &&
+        this.editItem.email &&
+        this.editItem.password
+      ) {
+        return true;
+      } else {
+        return false;
+      }
     }
   },
   watch: {
@@ -253,7 +276,6 @@ export default {
     getUserData() {
       axios.get("api/user").then(response => {
         this.users = response.data;
-        console.log(this.users);
       });
     },
     editUser(id, item) {
@@ -276,18 +298,42 @@ export default {
       this.editItem = Object.assign({}, this.defaultItem);
       this.editIndex = -1;
     },
-    close2() {
-      this.parse_csv = [];
-      this.parse_header = [];
-      this.sortOrders = {};
-      this.sortKey = "";
-      let file = document.getElementById("csv_file");
-      if (file.value) {
-        file.value = "";
+    save() {
+      this.$validator.validateAll();
+      if (this.editIndex > -1) {
+        Object.assign(this.users[this.editIndex], this.editItem) &&
+          axios.put("/api/user/" + this.editid, {
+            name_title: this.editItem.name_title,
+            firstname: this.editItem.firstname,
+            lastname: this.editItem.lastname,
+            sex: this.editItem.sex,
+            code: this.editItem.code,
+            department: this.editItem.department,
+            position: this.editItem.position,
+            email: this.editItem.email
+          });
+        this.snackbar = true;
+        this.close();
+      } else {
+        if (this.checkInput) {
+          this.users.push(this.editItem) &&
+            axios.post("/api/user", {
+              name_title: this.editItem.name_title,
+              firstname: this.editItem.firstname,
+              lastname: this.editItem.lastname,
+              sex: this.editItem.sex,
+              code: this.editItem.code,
+              department: this.editItem.department,
+              position: this.editItem.position,
+              email: this.editItem.email,
+              start_date: new Date().toISOString().substr(0, 10),
+              password: this.editItem.password
+            });
+          this.snackbar = true;
+          this.close();
+        }
       }
-      this.dialog2 = false;
-    },
-    save() {}
+    }
   }
 };
 </script>

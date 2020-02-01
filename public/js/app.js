@@ -3148,16 +3148,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   $_veeValidate: {
     validator: "new"
   },
   data: function data() {
     return {
-      parse_header: [],
-      parse_csv: [],
-      sortOrders: {},
-      sortKey: "",
       pagination: {
         rowsPerPage: 12
       },
@@ -3168,7 +3183,7 @@ __webpack_require__.r(__webpack_exports__);
       selected: "",
       dialog: false,
       dialog2: false,
-      statusTypes: ["staff", "student"],
+      statusTypes: ["General", "Manager", "HR"],
       statusSex: ["ชาย", "หญิง"],
       headers: [{
         text: "คำนำหน้าชื่อ",
@@ -3188,7 +3203,7 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         text: "แผนก",
         sortable: false,
-        value: "Department"
+        value: "department"
       }, {
         text: "ตำแหน่ง",
         value: "position"
@@ -3197,24 +3212,30 @@ __webpack_require__.r(__webpack_exports__);
         value: "email"
       }],
       users: [],
+      name_titles: ["นาย", "นาง", "นางสาว"],
+      statusDepartment: ["FIN", "PDD", "PCD", "HRD"],
       editIndex: -1,
       editItem: {
         name_title: "",
         firstname: "",
         lastname: "",
+        sex: "",
         code: "",
-        Department: "",
+        department: "",
         position: "",
-        email: ""
+        email: "",
+        password: ""
       },
       defaultItem: {
         name_title: "",
         firstname: "",
         lastname: "",
+        sex: "",
         code: "",
-        Department: "",
+        department: "",
         position: "",
-        email: ""
+        email: "",
+        password: ""
       }
     };
   },
@@ -3227,19 +3248,19 @@ __webpack_require__.r(__webpack_exports__);
     formTitle: function formTitle() {
       return this.editIndex === -1 ? "เพิ่มสมาชิกใหม่" : "แก้ไขข้อมูลสมาชิก";
     },
-    checkInput: function checkInput() {
-      if (this.editItem.name_title && this.editItem.firstname && this.editItem.lastname && this.editItem.code && this.editItem.Department && this.editItem.position && this.editItem.email) {
-        return true;
-      } else {
-        return false;
-      }
-    },
     filterUsers: function filterUsers() {
       var _this = this;
 
       return this.users.filter(function (user) {
         return user.firstname.match(_this.search) || user.lastname.match(_this.search);
       });
+    },
+    checkInput: function checkInput() {
+      if (this.editItem.name_title && this.editItem.firstname && this.editItem.lastname && this.editItem.sex && this.editItem.code && this.editItem.department && this.editItem.position && this.editItem.email && this.editItem.password) {
+        return true;
+      } else {
+        return false;
+      }
     }
   },
   watch: {
@@ -3256,7 +3277,6 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get("api/user").then(function (response) {
         _this2.users = response.data;
-        console.log(_this2.users);
       });
     },
     editUser: function editUser(id, item) {
@@ -3277,20 +3297,41 @@ __webpack_require__.r(__webpack_exports__);
       this.editItem = Object.assign({}, this.defaultItem);
       this.editIndex = -1;
     },
-    close2: function close2() {
-      this.parse_csv = [];
-      this.parse_header = [];
-      this.sortOrders = {};
-      this.sortKey = "";
-      var file = document.getElementById("csv_file");
+    save: function save() {
+      this.$validator.validateAll();
 
-      if (file.value) {
-        file.value = "";
+      if (this.editIndex > -1) {
+        Object.assign(this.users[this.editIndex], this.editItem) && axios.put("/api/user/" + this.editid, {
+          name_title: this.editItem.name_title,
+          firstname: this.editItem.firstname,
+          lastname: this.editItem.lastname,
+          sex: this.editItem.sex,
+          code: this.editItem.code,
+          department: this.editItem.department,
+          position: this.editItem.position,
+          email: this.editItem.email
+        });
+        this.snackbar = true;
+        this.close();
+      } else {
+        if (this.checkInput) {
+          this.users.push(this.editItem) && axios.post("/api/user", {
+            name_title: this.editItem.name_title,
+            firstname: this.editItem.firstname,
+            lastname: this.editItem.lastname,
+            sex: this.editItem.sex,
+            code: this.editItem.code,
+            department: this.editItem.department,
+            position: this.editItem.position,
+            email: this.editItem.email,
+            start_date: new Date().toISOString().substr(0, 10),
+            password: this.editItem.password
+          });
+          this.snackbar = true;
+          this.close();
+        }
       }
-
-      this.dialog2 = false;
-    },
-    save: function save() {}
+    }
   }
 });
 
@@ -53446,6 +53487,45 @@ var render = function() {
                                     "v-flex",
                                     { attrs: { xs12: "", sm6: "", md4: "" } },
                                     [
+                                      _c("v-select", {
+                                        directives: [
+                                          {
+                                            name: "validate",
+                                            rawName: "v-validate",
+                                            value: "required",
+                                            expression: "'required'"
+                                          }
+                                        ],
+                                        attrs: {
+                                          items: _vm.name_titles,
+                                          "item-text": "name_title",
+                                          label: "คำนำหน้าชื่อ*",
+                                          "data-vv-name": "name_title",
+                                          "error-messages": _vm.errors.collect(
+                                            "name_title"
+                                          ),
+                                          required: ""
+                                        },
+                                        model: {
+                                          value: _vm.editItem.name_title,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.editItem,
+                                              "name_title",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "editItem.name_title"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    { attrs: { xs12: "", sm6: "", md4: "" } },
+                                    [
                                       _c("v-text-field", {
                                         directives: [
                                           {
@@ -53585,6 +53665,45 @@ var render = function() {
                                     "v-flex",
                                     { attrs: { xs12: "", sm6: "", md4: "" } },
                                     [
+                                      _c("v-autocomplete", {
+                                        directives: [
+                                          {
+                                            name: "validate",
+                                            rawName: "v-validate",
+                                            value: "required",
+                                            expression: "'required'"
+                                          }
+                                        ],
+                                        attrs: {
+                                          items: _vm.statusDepartment,
+                                          "item-text": "department",
+                                          label: "แผนก*",
+                                          "data-vv-name": "department",
+                                          "error-messages": _vm.errors.collect(
+                                            "department"
+                                          ),
+                                          required: ""
+                                        },
+                                        model: {
+                                          value: _vm.editItem.department,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.editItem,
+                                              "department",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "editItem.department"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    { attrs: { xs12: "", sm6: "", md4: "" } },
+                                    [
                                       _c("v-select", {
                                         directives: [
                                           {
@@ -53596,20 +53715,24 @@ var render = function() {
                                         ],
                                         attrs: {
                                           items: _vm.statusTypes,
-                                          "item-text": "title",
-                                          label: "สถานะ*",
-                                          "data-vv-name": "type",
+                                          "item-text": "position",
+                                          label: "ตำแหน่ง*",
+                                          "data-vv-name": "position",
                                           "error-messages": _vm.errors.collect(
-                                            "type"
+                                            "position"
                                           ),
                                           required: ""
                                         },
                                         model: {
-                                          value: _vm.editItem.type,
+                                          value: _vm.editItem.position,
                                           callback: function($$v) {
-                                            _vm.$set(_vm.editItem, "type", $$v)
+                                            _vm.$set(
+                                              _vm.editItem,
+                                              "position",
+                                              $$v
+                                            )
                                           },
-                                          expression: "editItem.type"
+                                          expression: "editItem.position"
                                         }
                                       })
                                     ],
@@ -53618,7 +53741,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c(
                                     "v-flex",
-                                    { attrs: { xs12: "", sm6: "", md4: "" } },
+                                    { attrs: { xs12: "", sm6: "", md8: "" } },
                                     [
                                       _c("v-text-field", {
                                         directives: [
@@ -53630,58 +53753,18 @@ var render = function() {
                                           }
                                         ],
                                         attrs: {
-                                          label: "ระดับชั้น*",
-                                          "data-vv-name": "education",
+                                          label: "อีเมล*",
+                                          "data-vv-name": "email",
                                           "error-messages": _vm.errors.collect(
-                                            "education"
+                                            "email"
                                           )
                                         },
                                         model: {
-                                          value: _vm.editItem.education,
+                                          value: _vm.editItem.email,
                                           callback: function($$v) {
-                                            _vm.$set(
-                                              _vm.editItem,
-                                              "education",
-                                              $$v
-                                            )
+                                            _vm.$set(_vm.editItem, "email", $$v)
                                           },
-                                          expression: "editItem.education"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-flex",
-                                    { attrs: { xs12: "", sm6: "", md4: "" } },
-                                    [
-                                      _c("v-text-field", {
-                                        attrs: { label: "คะแนน" },
-                                        model: {
-                                          value: _vm.editItem.point,
-                                          callback: function($$v) {
-                                            _vm.$set(_vm.editItem, "point", $$v)
-                                          },
-                                          expression: "editItem.point"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-flex",
-                                    { attrs: { xs12: "", sm6: "", md4: "" } },
-                                    [
-                                      _c("v-text-field", {
-                                        attrs: { label: "จำนวนหุ้น" },
-                                        model: {
-                                          value: _vm.editItem.unit,
-                                          callback: function($$v) {
-                                            _vm.$set(_vm.editItem, "unit", $$v)
-                                          },
-                                          expression: "editItem.unit"
+                                          expression: "editItem.email"
                                         }
                                       })
                                     ],
@@ -53703,22 +53786,23 @@ var render = function() {
                                               }
                                             ],
                                             attrs: {
-                                              label: "วันเดือนปีเกิด*",
-                                              "data-vv-name": "bdate",
+                                              label: "รหัสผ่าน*",
+                                              type: "password",
+                                              "data-vv-name": "password",
                                               "error-messages": _vm.errors.collect(
-                                                "bdate"
+                                                "password"
                                               )
                                             },
                                             model: {
-                                              value: _vm.editItem.bdate,
+                                              value: _vm.editItem.password,
                                               callback: function($$v) {
                                                 _vm.$set(
                                                   _vm.editItem,
-                                                  "bdate",
+                                                  "password",
                                                   $$v
                                                 )
                                               },
-                                              expression: "editItem.bdate"
+                                              expression: "editItem.password"
                                             }
                                           })
                                         : _vm._e()
@@ -53830,7 +53914,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(props.item.code))]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(props.item.Department))]),
+                    _c("td", [_vm._v(_vm._s(props.item.department))]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(props.item.position))]),
                     _vm._v(" "),
