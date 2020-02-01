@@ -11,9 +11,7 @@ Vue.component('apexchart', VueApexCharts)
 Vue.use(Vuetify)
 Vue.use(VeeValidate);
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('navbar', require('./components/navbar.vue').default);
-Vue.component('carousel', require('./components/carousel.vue').default);
 
 Vue.component('event', require('./components/page/event.vue').default);
 Vue.component('save-training', require('./components/page/saveTraining.vue').default);
