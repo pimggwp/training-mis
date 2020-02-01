@@ -1867,10 +1867,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["usernow"],
   mounted: function mounted() {
@@ -50879,31 +50875,20 @@ var render = function() {
                     { attrs: { avatar: "" } },
                     [
                       _c("v-list-tile-avatar", [
-                        _vm.usernow.type == "student" &&
                         _vm.usernow.sex == "ชาย"
                           ? _c("img", {
                               attrs: {
                                 src:
-                                  "https://sv1.picz.in.th/images/2019/06/18/1xmdjP.png"
+                                  "https://www.pngitem.com/pimgs/m/41-415019_profile-man-male-free-picture-male-avatar-clipart.png"
                               }
                             })
                           : _vm._e(),
                         _vm._v(" "),
-                        _vm.usernow.type == "student" &&
                         _vm.usernow.sex == "หญิง"
                           ? _c("img", {
                               attrs: {
                                 src:
-                                  "https://sv1.picz.in.th/images/2019/06/18/1xm0vt.png"
-                              }
-                            })
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _vm.usernow.type != "student"
-                          ? _c("img", {
-                              attrs: {
-                                src:
-                                  "https://sv1.picz.in.th/images/2019/06/18/1xmW9I.png"
+                                  "https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
                               }
                             })
                           : _vm._e()

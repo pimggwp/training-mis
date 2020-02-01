@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
-    <title>สหกรณ์โรงเรียนอนุบาลเชียงคำ</title>
+    <title>ระบบบันทึกประวัติการฝึกอบรม</title>
 
     <!-- Scripts -->
     <script src="<?php echo e(asset('js/app.js')); ?>" defer></script>

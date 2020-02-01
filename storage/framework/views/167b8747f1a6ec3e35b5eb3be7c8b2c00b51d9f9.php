@@ -1,23 +1,19 @@
 <?php $__env->startSection('content'); ?>
 <v-app id="inspire" style="
     background: #FFFFFF;">
-    <v-layout row wrap>
-        <v-flex d-flex xs12 sm6 md8>
-            <carousel></carousel>
-        </v-flex>
+    <v-layout row wrap class="justify-center">
         <v-flex d-flex xs12 sm6 md4>
             <v-layout class="justify-center">
                 <v-flex xs9 sm10 mt-5>
                     <v-card tile flat height="100%">
                         <v-card-title>
-                            <img src="https://data.bopp-obec.info/emis/pic_school/1056320084.jpg" alt="" width="20%">
-                            &nbsp &nbsp<h2 class="txt-thS">ระบบสหกรณ์ร้านค้า (C1)<br />
-                                โรงเรียนอนุบาลเชียงคำ (วัดพระธาตุสบแวน)</h2>
+                        <img src="/images/elements/logo.png" height="80">
+                            &nbsp &nbsp<h1 class="txt-thS">ระบบบันทึกประวัติการฝึกอบรม</h1>
                         </v-card-title>
                         <v-card-text>
                             <form method="POST" action="<?php echo e(route('login')); ?>">
                                 <?php echo csrf_field(); ?>
-                                <h3 for="code" class="col-md-4 txt-thS mb-2"><?php echo e(__('รหัสสมาชิกสหกรณ์')); ?>
+                                <h3 for="code" class="col-md-4 txt-thS mb-2"><?php echo e(__('รหัสพนักงาน')); ?>
 
                                 </h3>
                                 <div class="col-md-6 form-group row">
@@ -50,11 +46,11 @@
                             </form>
                             <v-layout class="justify-center">
                                 <v-flex xs9 sm10 mt-5 pt-5>
-                                    <h2 class="txt-thS text-md-center">งานสหกรณ์โรงเรียนอนุบาลเชียงคำ (วัดพระธาตุสบแวน)
+                                    <h2 class="txt-thS text-md-center">ที่อยู่หน่วยงาน
                                     </h2>
-                                    <h3 class="txt-thS text-md-center">248/1 ถนนพิศาล ตำบลหย่วน อำเภอเชียงคำ
-                                        จังหวัดพะเยา 56110</h3>
-                                    <h3 class="txt-thS text-md-center">โทรศัพท์ 0-5445-2471 โทรสาร 054452471</h3>
+                                    <h3 class="txt-thS text-md-center">dddddfffdfdsfdsfdfd
+                                        จังหวัดเชียงใหม่ 25000</h3>
+                                    <h3 class="txt-thS text-md-center">โทรศัพท์ 0-1234-5678 โทรสาร 01234567 </h3>
                                 </v-flex>
                             </v-layout>
                             </div>

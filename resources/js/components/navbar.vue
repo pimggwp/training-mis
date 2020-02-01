@@ -15,16 +15,12 @@
           <v-list-tile avatar>
             <v-list-tile-avatar>
               <img
-                v-if="usernow.type=='student' && usernow.sex=='ชาย'"
-                src="https://sv1.picz.in.th/images/2019/06/18/1xmdjP.png"
+                v-if="usernow.sex=='ชาย'"
+                src="https://www.pngitem.com/pimgs/m/41-415019_profile-man-male-free-picture-male-avatar-clipart.png"
               />
               <img
-                v-if="usernow.type=='student' && usernow.sex=='หญิง'"
-                src="https://sv1.picz.in.th/images/2019/06/18/1xm0vt.png"
-              />
-              <img
-                v-if="usernow.type!='student'"
-                src="https://sv1.picz.in.th/images/2019/06/18/1xmW9I.png"
+                v-if="usernow.sex=='หญิง'"
+                src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
               />
             </v-list-tile-avatar>
             <v-list-tile-content>
