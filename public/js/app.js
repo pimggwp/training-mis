@@ -1871,28 +1871,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["usernow"],
   mounted: function mounted() {
@@ -1911,12 +1889,12 @@ __webpack_require__.r(__webpack_exports__);
         link: "/training-save"
       }, {
         title: "ประวัติการฝึกอบรมรายบุคคล",
-        icon: "assignment_turned_in" // link: "/transaction-staff"
+        icon: "assignment" // link: "/transaction-staff"
 
       }, {
         title: "ค้นหาข้อมูลหลักสูตรอบรม",
-        icon: "assignment_turned_in",
-        link: "/dividend-for-admin"
+        icon: "search" // link: "/dividend-for-admin"
+
       }, {
         title: "รายงานสรุปผล",
         icon: "description" // link: "/event"
@@ -2345,17 +2323,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return user.type != "staff" && user.email;
       });
       return arr;
-    },
-    pageShow: function pageShow() {
-      if (this.usernow.type == 'staff') {
-        if (this.usernow.admin == 1) {
-          return 'A5';
-        } else {
-          return 'S3';
-        }
-      } else {
-        return 'U5';
-      }
     }
   }
 });
@@ -2501,12 +2468,69 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.getCourseCode();
+    this.getUsers();
+  },
+  watch: {
+    courseCodeSelect: function courseCodeSelect(newValue) {
+      this.courseName = newValue.name;
+      this.instName = newValue.instructor;
+    },
+    total: function total(newValue) {
+      this.employees = [];
+
+      for (var i = 0; i < newValue; i++) {
+        this.employees.push({
+          index: i + 1,
+          code: "กรุณากรอกรหัส",
+          Department: null,
+          firstname: null,
+          lastname: null,
+          position: null
+        });
+      }
+    }
   },
   data: function data() {
     return {
+      snack: false,
+      snackColor: "",
+      snackText: "",
+      total: 0,
       date: null,
       modal: false,
       menu: false,
@@ -2514,18 +2538,80 @@ __webpack_require__.r(__webpack_exports__);
       types: ["InHouse", "Public", "Other"],
       typeSelect: null,
       courseCodeSelect: null,
-      courseCode: []
+      courses: [],
+      courseName: null,
+      instName: null,
+      headers: [{
+        text: "ลำดับ",
+        align: "left",
+        sortable: false,
+        value: "index"
+      }, {
+        text: "รหัส",
+        sortable: false,
+        value: "code"
+      }, {
+        text: "แผนก",
+        sortable: false,
+        value: "Department"
+      }, {
+        text: "ชื่อ",
+        sortable: false,
+        value: "firstname"
+      }, {
+        text: "นามสกุล",
+        sortable: false,
+        value: "lastname"
+      }, {
+        text: "ตำแหน่ง",
+        sortable: false,
+        value: "position"
+      }],
+      employees: [],
+      users: []
     };
   },
   methods: {
     getCourseCode: function getCourseCode() {
       var _this = this;
 
-      axios.get("api/").then(function (response) {
-        _this.users = response.data;
+      axios.get("api/course").then(function (response) {
+        _this.courses = response.data;
+        _this.courseCode = _this.courses.map(function (a) {
+          return a.code;
+        });
       });
     },
-    save: function save() {}
+    getUsers: function getUsers() {
+      var _this2 = this;
+
+      axios.get("api/user").then(function (response) {
+        _this2.users = response.data;
+      });
+    },
+    save: function save() {
+      this.snack = true;
+      this.snackColor = "success";
+      this.snackText = "บันทึกแล้ว";
+    },
+    cancel: function cancel() {
+      this.snack = true;
+      this.snackColor = "error";
+      this.snackText = "ยกเลิก";
+    },
+    searchData: function searchData(index, code) {
+      var userSel = this.users.filter(function (user) {
+        return user.code == code;
+      });
+      console.log(userSel[0].firstname);
+
+      if (userSel) {
+        this.employees[index - 1].Department = userSel[0].Department;
+        this.employees[index - 1].firstname = userSel[0].firstname;
+        this.employees[index - 1].lastname = userSel[0].lastname;
+        this.employees[index - 1].position = userSel[0].position;
+      }
+    }
   }
 });
 
@@ -3066,20 +3152,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   $_veeValidate: {
     validator: "new"
@@ -3103,6 +3175,10 @@ __webpack_require__.r(__webpack_exports__);
       statusTypes: ["staff", "student"],
       statusSex: ["ชาย", "หญิง"],
       headers: [{
+        text: "คำนำหน้าชื่อ",
+        sortable: false,
+        value: "name_title"
+      }, {
         text: "ชื่อ",
         sortable: false,
         value: "firstname"
@@ -3114,46 +3190,35 @@ __webpack_require__.r(__webpack_exports__);
         text: "รหัส",
         value: "code"
       }, {
-        text: "Email",
+        text: "แผนก",
         sortable: false,
+        value: "Department"
+      }, {
+        text: "ตำแหน่ง",
+        value: "position"
+      }, {
+        text: "อีเมล",
         value: "email"
-      }, {
-        text: "สถานะ",
-        value: "type"
-      }, {
-        text: "คะแนน",
-        value: "point"
-      }, {
-        text: "ระดับชั้น",
-        value: "education"
-      }, {
-        text: "จำนวนหุ้น",
-        value: "unit"
       }],
       users: [],
       editIndex: -1,
       editItem: {
+        name_title: "",
         firstname: "",
         lastname: "",
         code: "",
-        barcode: "",
-        type: "",
-        sex: "",
-        point: 0,
-        education: null,
-        bdate: null,
-        unit: 0
+        Department: "",
+        position: "",
+        email: ""
       },
       defaultItem: {
+        name_title: "",
         firstname: "",
         lastname: "",
         code: "",
-        type: "",
-        sex: "",
-        point: 0,
-        education: null,
-        bdate: null,
-        unit: 0
+        Department: "",
+        position: "",
+        email: ""
       }
     };
   },
@@ -3167,20 +3232,17 @@ __webpack_require__.r(__webpack_exports__);
       return this.editIndex === -1 ? "เพิ่มสมาชิกใหม่" : "แก้ไขข้อมูลสมาชิก";
     },
     checkInput: function checkInput() {
-      if (this.editItem.firstname && this.editItem.lastname && this.editItem.code && this.editItem.type && this.editItem.sex && this.editItem.education && this.editItem.bdate) {
+      if (this.editItem.name_title && this.editItem.firstname && this.editItem.lastname && this.editItem.code && this.editItem.Department && this.editItem.position && this.editItem.email) {
         return true;
       } else {
         return false;
       }
     },
-    pageShow: function pageShow() {
-      return "A5";
-    },
     filterUsers: function filterUsers() {
       var _this = this;
 
       return this.users.filter(function (user) {
-        return user.education.match(_this.selected) && (user.firstname.match(_this.search) || user.lastname.match(_this.search));
+        return user.firstname.match(_this.search) || user.lastname.match(_this.search);
       });
     }
   },
@@ -3198,6 +3260,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get("api/user").then(function (response) {
         _this2.users = response.data;
+        console.log(_this2.users);
       });
     },
     editUser: function editUser(id, item) {
@@ -3230,7 +3293,8 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.dialog2 = false;
-    }
+    },
+    save: function save() {}
   }
 });
 
@@ -50896,7 +50960,7 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _vm.usernow.type == "staff" && _vm.usernow.admin
+          _vm.usernow.admin
             ? _c(
                 "v-list",
                 { staticClass: "pt-0", attrs: { dense: "" } },
@@ -50926,78 +50990,6 @@ var render = function() {
                             _c("v-list-tile-title", {
                               domProps: { textContent: _vm._s(item.title) }
                             })
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  })
-                ],
-                2
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.usernow.type == "staff" && _vm.usernow.admin != 1
-            ? _c(
-                "v-list",
-                { staticClass: "pt-0", attrs: { dense: "" } },
-                [
-                  _c("v-divider"),
-                  _vm._v(" "),
-                  _vm._l(_vm.itemsStaff, function(item) {
-                    return _c(
-                      "v-list-tile",
-                      { key: item.title, attrs: { href: item.link } },
-                      [
-                        _c(
-                          "v-list-tile-action",
-                          [_c("v-icon", [_vm._v(_vm._s(item.icon))])],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-list-tile-content",
-                          [
-                            _c("v-list-tile-title", [
-                              _vm._v(_vm._s(item.title))
-                            ])
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  })
-                ],
-                2
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.usernow.type == "student"
-            ? _c(
-                "v-list",
-                { staticClass: "pt-0", attrs: { dense: "" } },
-                [
-                  _c("v-divider"),
-                  _vm._v(" "),
-                  _vm._l(_vm.itemsUser, function(item) {
-                    return _c(
-                      "v-list-tile",
-                      { key: item.title, attrs: { href: item.link } },
-                      [
-                        _c(
-                          "v-list-tile-action",
-                          [_c("v-icon", [_vm._v(_vm._s(item.icon))])],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-list-tile-content",
-                          [
-                            _c("v-list-tile-title", [
-                              _vm._v(_vm._s(item.title))
-                            ])
                           ],
                           1
                         )
@@ -51522,17 +51514,19 @@ var render = function() {
                                 ],
                                 attrs: {
                                   label: "ชื่อกิจกรรม*",
-                                  "error-messages": _vm.errors.collect("title"),
-                                  "data-vv-name": "title",
+                                  "error-messages": _vm.errors.collect(
+                                    "course_name"
+                                  ),
+                                  "data-vv-name": "course_name",
                                   required: "",
                                   attach: ""
                                 },
                                 model: {
-                                  value: _vm.editItem.title,
+                                  value: _vm.editItem.course_name,
                                   callback: function($$v) {
-                                    _vm.$set(_vm.editItem, "title", $$v)
+                                    _vm.$set(_vm.editItem, "course_name", $$v)
                                   },
-                                  expression: "editItem.title"
+                                  expression: "editItem.course_name"
                                 }
                               })
                             ],
@@ -52046,7 +52040,7 @@ var render = function() {
                             "v-flex",
                             { attrs: { xs12: "", sm6: "", md6: "" } },
                             [
-                              _c("v-select", {
+                              _c("v-autocomplete", {
                                 directives: [
                                   {
                                     name: "validate",
@@ -52056,14 +52050,15 @@ var render = function() {
                                   }
                                 ],
                                 attrs: {
-                                  items: _vm.courseCode,
-                                  "item-text": "course_code",
+                                  "item-text": "code",
+                                  items: _vm.courses,
                                   label: "รหัสหลักสูตร*",
                                   "data-vv-name": "course_code",
                                   "error-messages": _vm.errors.collect(
                                     "course_code"
                                   ),
-                                  required: ""
+                                  required: "",
+                                  "return-object": ""
                                 },
                                 model: {
                                   value: _vm.courseCodeSelect,
@@ -52092,10 +52087,8 @@ var render = function() {
                                 ],
                                 attrs: {
                                   label: "รุ่นที่*",
-                                  "data-vv-name": "lastname",
-                                  "error-messages": _vm.errors.collect(
-                                    "lastname"
-                                  )
+                                  "data-vv-name": "number",
+                                  "error-messages": _vm.errors.collect("number")
                                 }
                               })
                             ],
@@ -52107,20 +52100,13 @@ var render = function() {
                             { attrs: { xs12: "", sm12: "", md12: "" } },
                             [
                               _c("v-text-field", {
-                                directives: [
-                                  {
-                                    name: "validate",
-                                    rawName: "v-validate",
-                                    value: "required",
-                                    expression: "'required'"
-                                  }
-                                ],
-                                attrs: {
-                                  label: "ชื่อหลักสูตร*",
-                                  "data-vv-name": "firstname",
-                                  "error-messages": _vm.errors.collect(
-                                    "firstname"
-                                  )
+                                attrs: { label: "ชื่อหลักสูตร*", disabled: "" },
+                                model: {
+                                  value: _vm.courseName,
+                                  callback: function($$v) {
+                                    _vm.courseName = $$v
+                                  },
+                                  expression: "courseName"
                                 }
                               })
                             ],
@@ -52132,18 +52118,16 @@ var render = function() {
                             { attrs: { xs12: "", sm12: "", md12: "" } },
                             [
                               _c("v-text-field", {
-                                directives: [
-                                  {
-                                    name: "validate",
-                                    rawName: "v-validate",
-                                    value: "required",
-                                    expression: "'required'"
-                                  }
-                                ],
                                 attrs: {
                                   label: "วิทยากรผู้บรรยาย*",
-                                  "data-vv-name": "code",
-                                  "error-messages": _vm.errors.collect("code")
+                                  disabled: ""
+                                },
+                                model: {
+                                  value: _vm.instName,
+                                  callback: function($$v) {
+                                    _vm.instName = $$v
+                                  },
+                                  expression: "instName"
                                 }
                               })
                             ],
@@ -52190,10 +52174,16 @@ var render = function() {
                                 ],
                                 attrs: {
                                   label: "จำนวนผู้เข้าอบรม*",
-                                  "data-vv-name": "education",
-                                  "error-messages": _vm.errors.collect(
-                                    "education"
-                                  )
+                                  "data-vv-name": "total",
+                                  type: "number",
+                                  "error-messages": _vm.errors.collect("total")
+                                },
+                                model: {
+                                  value: _vm.total,
+                                  callback: function($$v) {
+                                    _vm.total = $$v
+                                  },
+                                  expression: "total"
                                 }
                               })
                             ],
@@ -52229,6 +52219,204 @@ var render = function() {
                       )
                     ],
                     1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-container",
+                    { attrs: { "grid-list-md": "" } },
+                    [
+                      [
+                        _c("v-data-table", {
+                          staticClass: "elevation-1",
+                          attrs: { headers: _vm.headers, items: _vm.employees },
+                          scopedSlots: _vm._u([
+                            {
+                              key: "headerCell",
+                              fn: function(props) {
+                                return [
+                                  _c(
+                                    "v-tooltip",
+                                    {
+                                      attrs: { bottom: "" },
+                                      scopedSlots: _vm._u(
+                                        [
+                                          {
+                                            key: "activator",
+                                            fn: function(ref) {
+                                              var on = ref.on
+                                              return [
+                                                _c("span", _vm._g({}, on), [
+                                                  _vm._v(
+                                                    _vm._s(props.header.text)
+                                                  )
+                                                ])
+                                              ]
+                                            }
+                                          }
+                                        ],
+                                        null,
+                                        true
+                                      )
+                                    },
+                                    [
+                                      _vm._v(" "),
+                                      _c("span", [
+                                        _vm._v(_vm._s(props.header.text))
+                                      ])
+                                    ]
+                                  )
+                                ]
+                              }
+                            },
+                            {
+                              key: "items",
+                              fn: function(props) {
+                                return [
+                                  _c("td", [_vm._v(_vm._s(props.item.index))]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "td",
+                                    [
+                                      _c(
+                                        "v-edit-dialog",
+                                        {
+                                          attrs: {
+                                            "return-value": props.item.code,
+                                            lazy: ""
+                                          },
+                                          on: {
+                                            "update:returnValue": function(
+                                              $event
+                                            ) {
+                                              return _vm.$set(
+                                                props.item,
+                                                "code",
+                                                $event
+                                              )
+                                            },
+                                            "update:return-value": function(
+                                              $event
+                                            ) {
+                                              return _vm.$set(
+                                                props.item,
+                                                "code",
+                                                $event
+                                              )
+                                            },
+                                            save: function($event) {
+                                              return _vm.searchData(
+                                                props.item.index,
+                                                props.item.code
+                                              )
+                                            },
+                                            cancel: _vm.cancel,
+                                            open: _vm.open
+                                          },
+                                          scopedSlots: _vm._u(
+                                            [
+                                              {
+                                                key: "input",
+                                                fn: function() {
+                                                  return [
+                                                    _c("v-text-field", {
+                                                      attrs: {
+                                                        label: "Edit",
+                                                        "single-line": "",
+                                                        counter: ""
+                                                      },
+                                                      model: {
+                                                        value: props.item.code,
+                                                        callback: function(
+                                                          $$v
+                                                        ) {
+                                                          _vm.$set(
+                                                            props.item,
+                                                            "code",
+                                                            $$v
+                                                          )
+                                                        },
+                                                        expression:
+                                                          "props.item.code"
+                                                      }
+                                                    })
+                                                  ]
+                                                },
+                                                proxy: true
+                                              }
+                                            ],
+                                            null,
+                                            true
+                                          )
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                    " +
+                                              _vm._s(props.item.code) +
+                                              "\n                    "
+                                          )
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _vm._v(_vm._s(props.item.Department))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _vm._v(_vm._s(props.item.firstname))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _vm._v(_vm._s(props.item.lastname))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _vm._v(_vm._s(props.item.position))
+                                  ])
+                                ]
+                              }
+                            }
+                          ])
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "v-snackbar",
+                          {
+                            attrs: { timeout: 3000, color: _vm.snackColor },
+                            model: {
+                              value: _vm.snack,
+                              callback: function($$v) {
+                                _vm.snack = $$v
+                              },
+                              expression: "snack"
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n              " +
+                                _vm._s(_vm.snackText) +
+                                "\n              "
+                            ),
+                            _c(
+                              "v-btn",
+                              {
+                                attrs: { flat: "" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.snack = false
+                                  }
+                                }
+                              },
+                              [_vm._v("Close")]
+                            )
+                          ],
+                          1
+                        )
+                      ]
+                    ],
+                    2
                   )
                 ],
                 1
@@ -53179,7 +53367,7 @@ var render = function() {
                     _c("v-icon", { attrs: { large: "", color: "blue" } }, [
                       _vm._v("supervised_user_circle")
                     ]),
-                    _vm._v("\n           สมาชิกในระบบ\n          ")
+                    _vm._v(" สมาชิกในระบบ\n          ")
                   ],
                   1
                 )
@@ -53192,28 +53380,6 @@ var render = function() {
               _vm._v(" "),
               _c("v-spacer"),
               _vm._v(" "),
-              _c(
-                "v-flex",
-                { attrs: { xs12: "", sm4: "", md2: "" } },
-                [
-                  _c("v-select", {
-                    attrs: {
-                      items: _vm.select,
-                      "item-text": "title",
-                      label: "เลือกดูระดับชั้น"
-                    },
-                    model: {
-                      value: _vm.selected,
-                      callback: function($$v) {
-                        _vm.selected = $$v
-                      },
-                      expression: "selected"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v("  \n      "),
               _c(
                 "v-flex",
                 { attrs: { xs12: "", sm4: "", md2: "" } },
@@ -53250,7 +53416,7 @@ var render = function() {
                             "v-btn",
                             _vm._g(
                               {
-                                staticClass: "mb-2 txt-title",
+                                staticClass: "mb-2",
                                 attrs: { color: "primary", dark: "" }
                               },
                               on
@@ -53614,54 +53780,13 @@ var render = function() {
                   )
                 ],
                 1
-              ),
-              _vm._v(" "),
-              _c("v-dialog", {
-                attrs: { "max-width": "900px" },
-                scopedSlots: _vm._u([
-                  {
-                    key: "activator",
-                    fn: function(ref) {
-                      var on = ref.on
-                      return [
-                        _c(
-                          "v-btn",
-                          _vm._g(
-                            {
-                              staticClass: "mb-2 txt-title",
-                              attrs: { color: "success", dark: "" }
-                            },
-                            on
-                          ),
-                          [
-                            _vm._v("\n            Upload \n            "),
-                            _c("img", {
-                              attrs: {
-                                width: "30",
-                                src:
-                                  "http://icons.iconarchive.com/icons/papirus-team/papirus-apps/256/ms-excel-icon.png"
-                              }
-                            })
-                          ]
-                        )
-                      ]
-                    }
-                  }
-                ]),
-                model: {
-                  value: _vm.dialog2,
-                  callback: function($$v) {
-                    _vm.dialog2 = $$v
-                  },
-                  expression: "dialog2"
-                }
-              })
+              )
             ],
             1
           ),
           _vm._v(" "),
           _c("v-data-table", {
-            staticClass: "elevation-1 txt-title",
+            staticClass: "elevation-1",
             attrs: {
               headers: _vm.headers,
               items: _vm.filterUsers,
@@ -53675,24 +53800,56 @@ var render = function() {
             },
             scopedSlots: _vm._u([
               {
+                key: "headerCell",
+                fn: function(props) {
+                  return [
+                    _c(
+                      "v-tooltip",
+                      {
+                        attrs: { bottom: "" },
+                        scopedSlots: _vm._u(
+                          [
+                            {
+                              key: "activator",
+                              fn: function(ref) {
+                                var on = ref.on
+                                return [
+                                  _c("span", _vm._g({}, on), [
+                                    _vm._v(_vm._s(props.header.text))
+                                  ])
+                                ]
+                              }
+                            }
+                          ],
+                          null,
+                          true
+                        )
+                      },
+                      [
+                        _vm._v(" "),
+                        _c("span", [_vm._v(_vm._s(props.header.text))])
+                      ]
+                    )
+                  ]
+                }
+              },
+              {
                 key: "items",
                 fn: function(props) {
                   return [
+                    _c("td", [_vm._v(_vm._s(props.item.name_title))]),
+                    _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(props.item.firstname))]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(props.item.lastname))]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(props.item.code))]),
                     _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(props.item.Department))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(props.item.position))]),
+                    _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(props.item.email))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(props.item.type))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(props.item.point))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(props.item.education))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(props.item.unit))]),
                     _vm._v(" "),
                     _c(
                       "td",

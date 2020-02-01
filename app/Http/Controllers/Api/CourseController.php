@@ -15,8 +15,8 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $course = Course::orderBy('created_at', 'asc')->get();
-        return response()->json($events);
+        $course = Course::all();
+        return response()->json($course);
     }
 
     /**

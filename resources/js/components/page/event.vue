@@ -114,11 +114,11 @@
             <v-layout wrap>
               <v-flex xs12 sm12 md12>
                 <v-text-field
-                  v-model="editItem.title"
+                  v-model="editItem.course_name"
                   label="ชื่อกิจกรรม*"
                   v-validate="'required'"
-                  :error-messages="errors.collect('title')"
-                  data-vv-name="title"
+                  :error-messages="errors.collect('course_name')"
+                  data-vv-name="course_name"
                   required
                   attach
                 ></v-text-field>
@@ -370,17 +370,6 @@ export default {
       });
       return arr;
     },
-    pageShow(){
-      if(this.usernow.type == 'staff'){
-        if(this.usernow.admin == 1){
-          return 'A5'
-        }else{
-          return 'S3'
-        }
-      }else{
-        return 'U5'
-      }
-    }
   }
 };
 </script>

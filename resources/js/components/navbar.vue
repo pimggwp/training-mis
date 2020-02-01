@@ -39,7 +39,7 @@
         </v-list>
       </v-toolbar>
 
-      <v-list class="pt-0" dense v-if="usernow.type=='staff'&&usernow.admin">
+      <v-list class="pt-0" dense v-if="usernow.admin">
         <v-divider></v-divider>
         <v-list-tile v-for="item in itemsAdmin" :key="item.title" :href="item.link">
           <v-list-tile-action>
@@ -51,28 +51,6 @@
         </v-list-tile>
       </v-list>
 
-      <v-list class="pt-0" dense v-if="usernow.type=='staff'&&usernow.admin!=1">
-        <v-divider></v-divider>
-        <v-list-tile v-for="item in itemsStaff" :key="item.title" :href="item.link">
-          <v-list-tile-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-      <v-list class="pt-0" dense v-if="usernow.type=='student'">
-        <v-divider></v-divider>
-        <v-list-tile v-for="item in itemsUser" :key="item.title" :href="item.link">
-          <v-list-tile-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
     </v-navigation-drawer>
   </v-app>
 </template>
@@ -96,13 +74,13 @@ export default {
         },
         {
           title: "ประวัติการฝึกอบรมรายบุคคล",
-          icon: "assignment_turned_in",
+          icon: "assignment",
           // link: "/transaction-staff"
         },
         {
           title: "ค้นหาข้อมูลหลักสูตรอบรม",
-          icon: "assignment_turned_in",
-          link: "/dividend-for-admin"
+          icon: "search",
+          // link: "/dividend-for-admin"
         },
         {
           title: "รายงานสรุปผล",

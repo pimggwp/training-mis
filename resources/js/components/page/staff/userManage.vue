@@ -4,22 +4,18 @@
       <v-toolbar flat color="white">
         <v-toolbar-title>
           <h3>
-            <v-icon large color="blue">supervised_user_circle</v-icon>
-            &nbsp;สมาชิกในระบบ
+            <v-icon large color="blue">supervised_user_circle</v-icon>&nbsp;สมาชิกในระบบ
             <!-- <v-btn color="primary" dark class="mb-2 txt-title" @click="genBC">GenBC</v-btn> -->
           </h3>
         </v-toolbar-title>
         <v-divider class="mx-2" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-flex xs12 sm4 md2>
-          <v-select :items="select" v-model="selected" item-text="title" label="เลือกดูระดับชั้น"></v-select>
-        </v-flex>&nbsp;&nbsp;
-        <v-flex xs12 sm4 md2>
           <v-text-field v-model="search" append-icon="search" label="ค้นหา" single-line></v-text-field>
         </v-flex>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
-            <v-btn color="primary" dark class="mb-2 txt-title" v-on="on">เพิ่มสมาชิก</v-btn>
+            <v-btn color="primary" dark class="mb-2" v-on="on">เพิ่มสมาชิก</v-btn>
           </template>
           <v-card>
             <v-card-title>
@@ -114,40 +110,30 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-        <v-dialog v-model="dialog2" max-width="900px">
-          <template v-slot:activator="{ on }">
-            <v-btn color="success" dark class="mb-2 txt-title" v-on="on">
-              Upload&nbsp;
-              <img
-                width="30"
-                src="http://icons.iconarchive.com/icons/papirus-team/papirus-apps/256/ms-excel-icon.png"
-              />
-            </v-btn>
-          </template>
-        </v-dialog>
-        <!-- <v-btn
-          color="orange accent-3"
-          dark
-          class="mb-2 txt-title"
-          @click="reportPdf()"
-        >พิมพ์บัตรสมาชิก</v-btn> -->
       </v-toolbar>
       <v-data-table
         :headers="headers"
         :items="filterUsers"
         :search="search"
         :pagination.sync="pagination"
-        class="elevation-1 txt-title"
+        class="elevation-1"
       >
+        <template slot="headerCell" slot-scope="props">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <span v-on="on">{{ props.header.text }}</span>
+            </template>
+            <span>{{ props.header.text }}</span>
+          </v-tooltip>
+        </template>
         <template v-slot:items="props">
+          <td>{{ props.item.name_title }}</td>
           <td>{{ props.item.firstname }}</td>
           <td>{{ props.item.lastname }}</td>
           <td>{{ props.item.code }}</td>
+          <td>{{ props.item.Department }}</td>
+          <td>{{ props.item.position }}</td>
           <td>{{ props.item.email }}</td>
-          <td>{{ props.item.type }}</td>
-          <td>{{ props.item.point }}</td>
-          <td>{{ props.item.education }}</td>
-          <td>{{ props.item.unit }}</td>
           <td class="justify-center layout px-0">
             <v-icon small class="mr-2" @click="editUser(props.item.id,props.item)">edit</v-icon>
             <v-icon small @click="deleteUser(props.item.id,props.item)">delete</v-icon>
@@ -194,39 +180,33 @@ export default {
     statusTypes: ["staff", "student"],
     statusSex: ["ชาย", "หญิง"],
     headers: [
+      { text: "คำนำหน้าชื่อ", sortable: false, value: "name_title" },
       { text: "ชื่อ", sortable: false, value: "firstname" },
       { text: "นามสกุล", sortable: false, value: "lastname" },
       { text: "รหัส", value: "code" },
-      { text: "Email", sortable: false, value: "email" },
-      { text: "สถานะ", value: "type" },
-      { text: "คะแนน", value: "point" },
-      { text: "ระดับชั้น", value: "education" },
-      { text: "จำนวนหุ้น", value: "unit" }
+      { text: "แผนก", sortable: false, value: "Department" },
+      { text: "ตำแหน่ง", value: "position" },
+      { text: "อีเมล", value: "email" }
     ],
     users: [],
     editIndex: -1,
     editItem: {
+      name_title: "",
       firstname: "",
       lastname: "",
       code: "",
-      barcode: "",
-      type: "",
-      sex: "",
-      point: 0,
-      education: null,
-      bdate: null,
-      unit: 0
+      Department: "",
+      position: "",
+      email: ""
     },
     defaultItem: {
+      name_title: "",
       firstname: "",
       lastname: "",
       code: "",
-      type: "",
-      sex: "",
-      point: 0,
-      education: null,
-      bdate: null,
-      unit: 0
+      Department: "",
+      position: "",
+      email: ""
     }
   }),
   filters: {
@@ -240,28 +220,23 @@ export default {
     },
     checkInput: function() {
       if (
+        this.editItem.name_title &&
         this.editItem.firstname &&
         this.editItem.lastname &&
         this.editItem.code &&
-        this.editItem.type &&
-        this.editItem.sex &&
-        this.editItem.education &&
-        this.editItem.bdate
+        this.editItem.Department &&
+        this.editItem.position &&
+        this.editItem.email
       ) {
         return true;
       } else {
         return false;
       }
     },
-    pageShow() {
-      return "A5";
-    },
     filterUsers() {
       return this.users.filter(user => {
         return (
-          user.education.match(this.selected) &&
-          (user.firstname.match(this.search) ||
-            user.lastname.match(this.search))
+          user.firstname.match(this.search) || user.lastname.match(this.search)
         );
       });
     }
@@ -278,6 +253,7 @@ export default {
     getUserData() {
       axios.get("api/user").then(response => {
         this.users = response.data;
+        console.log(this.users);
       });
     },
     editUser(id, item) {
@@ -311,6 +287,7 @@ export default {
       }
       this.dialog2 = false;
     },
+    save() {}
   }
 };
 </script>
