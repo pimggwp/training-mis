@@ -50843,47 +50843,45 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _vm.usernow.admin
-            ? _c(
-                "v-list",
-                { staticClass: "pt-0", attrs: { dense: "" } },
-                [
-                  _c("v-divider"),
-                  _vm._v(" "),
-                  _vm._l(_vm.itemsAdmin, function(item) {
-                    return _c(
-                      "v-list-tile",
-                      { key: item.title, attrs: { href: item.link } },
+          _c(
+            "v-list",
+            { staticClass: "pt-0", attrs: { dense: "" } },
+            [
+              _c("v-divider"),
+              _vm._v(" "),
+              _vm._l(_vm.itemsAdmin, function(item) {
+                return _c(
+                  "v-list-tile",
+                  { key: item.title, attrs: { href: item.link } },
+                  [
+                    _c(
+                      "v-list-tile-action",
                       [
                         _c(
-                          "v-list-tile-action",
-                          [
-                            _c(
-                              "v-icon",
-                              { attrs: { color: item.link == 3 ? "red" : "" } },
-                              [_vm._v(_vm._s(item.icon))]
-                            )
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-list-tile-content",
-                          [
-                            _c("v-list-tile-title", {
-                              domProps: { textContent: _vm._s(item.title) }
-                            })
-                          ],
-                          1
+                          "v-icon",
+                          { attrs: { color: item.link == 3 ? "red" : "" } },
+                          [_vm._v(_vm._s(item.icon))]
                         )
                       ],
                       1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-list-tile-content",
+                      [
+                        _c("v-list-tile-title", {
+                          domProps: { textContent: _vm._s(item.title) }
+                        })
+                      ],
+                      1
                     )
-                  })
-                ],
-                2
-              )
-            : _vm._e()
+                  ],
+                  1
+                )
+              })
+            ],
+            2
+          )
         ],
         1
       )

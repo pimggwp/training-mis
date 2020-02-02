@@ -35,7 +35,7 @@
         </v-list>
       </v-toolbar>
 
-      <v-list class="pt-0" dense v-if="usernow.admin">
+      <v-list class="pt-0" dense >
         <v-divider></v-divider>
         <v-list-tile v-for="item in itemsAdmin" :key="item.title" :href="item.link">
           <v-list-tile-action>
