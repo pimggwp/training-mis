@@ -125,27 +125,6 @@
                     <span>{{ props.header.text }}</span>
                   </v-tooltip>
                 </template>
-                <template v-slot:items="props">
-                  <td>{{ props.item.index }}</td>
-                  <td>
-                    <v-edit-dialog
-                      :return-value.sync="props.item.code"
-                      lazy
-                      @save="searchData(props.item.index,props.item.code)"
-                      @cancel="cancel"
-                      @open="open"
-                    >
-                      {{ props.item.code }}
-                      <template v-slot:input>
-                        <v-text-field v-model="props.item.code" label="Edit" single-line counter></v-text-field>
-                      </template>
-                    </v-edit-dialog>
-                  </td>
-                  <td>{{ props.item.Department }}</td>
-                  <td>{{ props.item.firstname }}</td>
-                  <td>{{ props.item.lastname }}</td>
-                  <td>{{ props.item.position }}</td>
-                </template>
               </v-data-table>
               <v-snackbar v-model="snack" :timeout="3000" :color="snackColor">
                 {{ snackText }}
@@ -156,7 +135,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" flat @click="save">บันทึก</v-btn>
+          <v-btn color="blue darken-1" flat @click="save" href="/">บันทึก</v-btn>
         </v-card-actions>
       </v-card>
     </v-flex>
@@ -248,6 +227,7 @@ export default {
         })
         .then(
           response => {
+            this.snack = true
             console.log(response);
           },
           error => {

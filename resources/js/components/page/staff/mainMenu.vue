@@ -211,7 +211,6 @@ export default {
       snackbar: false,
       dialog: false,
       editid: null,
-      type: "",
       editIndex: -1,
       editItem: {
         course_name: "",

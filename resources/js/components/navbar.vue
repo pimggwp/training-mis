@@ -24,7 +24,9 @@
               />
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title class="txt-title"><h3>{{usernow.firstname}} {{usernow.lastname}} </h3></v-list-tile-title>
+              <v-list-tile-title class="txt-title">
+                <h3>{{usernow.firstname}} {{usernow.lastname}}</h3>
+              </v-list-tile-title>
             </v-list-tile-content>
             <v-list-tile-action>
               <v-btn icon @click.stop="mini = !mini">
@@ -35,7 +37,7 @@
         </v-list>
       </v-toolbar>
 
-      <v-list class="pt-0" dense >
+      <v-list class="pt-0" dense>
         <v-divider></v-divider>
         <v-list-tile v-for="item in itemsAdmin" :key="item.title" :href="item.link">
           <v-list-tile-action>
@@ -46,7 +48,6 @@
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
-
     </v-navigation-drawer>
   </v-app>
 </template>
@@ -70,23 +71,28 @@ export default {
         },
         {
           title: "ประวัติการฝึกอบรมรายบุคคล",
-          icon: "assignment",
+          icon: "collections_bookmark"
           // link: "/transaction-staff"
         },
         {
           title: "ค้นหาข้อมูลหลักสูตรอบรม",
-          icon: "search",
+          icon: "search"
           // link: "/dividend-for-admin"
         },
         {
           title: "รายงานสรุปผล",
-          icon: "description",
-          // link: "/event"
+          icon: "description"
+          // link: "/report"
         },
         {
-          title: "จัดการพนักงาน",
+          title: "จัดการสมาชิก",
           icon: "supervised_user_circle",
           link: "/user"
+        },
+        {
+          title: "ค้นหาข้อมูลพนักงาน",
+          icon: "group",
+          link: "/employee"
         }
       ],
       // itemsStaff: [

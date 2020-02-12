@@ -84,11 +84,7 @@ class EventController extends Controller
         $event = Event::find($id);
         $event->course_name = $request->get('course_name');
         $event->date = $request->get('date');
-        $event->type = $request->get('type');
-        $event->number = $request->get('number');
         $event->location = $request->get('location');
-        $event->total = $request->get('total');
-        $event->money = $request->get('money');
         $event->update();
         return response()->json($event);
     }
