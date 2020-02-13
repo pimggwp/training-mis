@@ -23,6 +23,7 @@ Route::resource('user','UserController');
 Route::resource('event','EventController');
 Route::resource('profile','ProfileController');
 Route::resource('training-save','TrainingSaveController');
-
+Route::resource('employee','EmployeeController');
+Route::resource('personal-report','PersonalReportController');
 
 Route::get('send-main', 'HomeController@sendMail');

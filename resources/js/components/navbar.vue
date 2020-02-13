@@ -71,8 +71,8 @@ export default {
         },
         {
           title: "ประวัติการฝึกอบรมรายบุคคล",
-          icon: "collections_bookmark"
-          // link: "/transaction-staff"
+          icon: "collections_bookmark",
+          link: "/personal-report"
         },
         {
           title: "ค้นหาข้อมูลหลักสูตรอบรม",

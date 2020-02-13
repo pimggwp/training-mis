@@ -125,6 +125,32 @@
                     <span>{{ props.header.text }}</span>
                   </v-tooltip>
                 </template>
+                <template v-slot:items="props">
+                  <td>{{ props.item.index }}</td>
+                  <td>
+                    <v-edit-dialog
+                      :return-value.sync="props.item.employee_code"
+                      lazy
+                      @save="searchData(props.item.index, props.item.employee_code)"
+                      @cancel="cancel"
+                    >
+                      {{ props.item.employee_code }}
+                      <template v-slot:input>
+                        <v-text-field
+                          v-model="props.item.employee_code"
+                          label="Edit"
+                          single-line
+                          counter
+                        ></v-text-field>
+                      </template>
+                    </v-edit-dialog>
+                  </td>
+                  <td>{{ props.item.name_title }}</td>
+                  <td>{{ props.item.firstname }}</td>
+                  <td>{{ props.item.lastname }}</td>
+                  <!-- <td>{{ props.item.department }}</td> -->
+                  <td>{{ props.item.position }}</td>
+                </template>
               </v-data-table>
               <v-snackbar v-model="snack" :timeout="3000" :color="snackColor">
                 {{ snackText }}
@@ -150,6 +176,7 @@ export default {
   },
   watch: {
     courseCodeSelect: function(newValue) {
+      this.course_id = newValue.id
       this.course_name = newValue.name;
       this.inst_name = newValue.instructor;
     },
@@ -158,8 +185,9 @@ export default {
       for (let i = 0; i < newValue; i++) {
         this.employees.push({
           index: i + 1,
-          code: "กรุณากรอกรหัส",
-          Department: null,
+          id: null,
+          employee_code: "กรุณากรอกรหัส",
+          name_title: null,
           firstname: null,
           lastname: null,
           position: null
@@ -175,6 +203,7 @@ export default {
     date: null,
     modal: false,
     menu: false,
+    course_id: null,
     events: [],
     types: ["InHouse", "Public", "Other"],
     typeSelect: null,
@@ -193,8 +222,9 @@ export default {
         sortable: false,
         value: "index"
       },
-      { text: "รหัส", sortable: false, value: "code" },
-      { text: "แผนก", sortable: false, value: "Department" },
+      { text: "รหัสพนักงาน", sortable: false, value: "employee_code" },
+      // { text: "แผนก", sortable: false, value: "Department" },
+      { text: "คำนำหน้านาม", sortable: false, value: "name_title" },
       { text: "ชื่อ", sortable: false, value: "firstname" },
       { text: "นามสกุล", sortable: false, value: "lastname" },
       { text: "ตำแหน่ง", sortable: false, value: "position" }
@@ -210,7 +240,7 @@ export default {
       });
     },
     getUsers() {
-      axios.get("api/user").then(response => {
+      axios.get("api/employee").then(response => {
         this.users = response.data;
       });
     },
@@ -227,13 +257,32 @@ export default {
         })
         .then(
           response => {
-            this.snack = true
+            this.snack = true;
             console.log(response);
           },
           error => {
             console.log(error);
           }
         );
+
+      //วนลูปแอดคนเข้า
+      this.employees.forEach(emp => {
+        axios
+          .post("/api/employee-event", {
+            employee_id: emp.id,
+            course_id: this.course_id
+          })
+          .then(
+            response => {
+              this.snack = true;
+              console.log(response);
+            },
+            error => {
+              console.log(error);
+            }
+          );
+      });
+
       this.snack = true;
       this.snackColor = "success";
       this.snackText = "บันทึกแล้ว";
@@ -245,11 +294,11 @@ export default {
     },
     searchData(index, code) {
       let userSel = this.users.filter(user => {
-        return user.code == code;
+        return user.employee_code == code;
       });
-      console.log(userSel[0].firstname);
       if (userSel) {
-        this.employees[index - 1].Department = userSel[0].Department;
+        this.employees[index - 1].id = userSel[0].id;
+        this.employees[index - 1].name_title = userSel[0].name_title;
         this.employees[index - 1].firstname = userSel[0].firstname;
         this.employees[index - 1].lastname = userSel[0].lastname;
         this.employees[index - 1].position = userSel[0].position;

@@ -23,3 +23,5 @@ Route::resource('transaction','Api\TransactionController');
 Route::resource('reportuser','Api\ReportUserController');
 Route::resource('event','Api\EventController');
 Route::resource('course','Api\CourseController');
+Route::resource('employee','Api\EmployeeController');
+Route::resource('employee-event','Api\EmployeesEventsController');
