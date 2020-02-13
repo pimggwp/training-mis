@@ -270,7 +270,8 @@ export default {
         axios
           .post("/api/employee-event", {
             employee_id: emp.id,
-            course_id: this.course_id
+            course_id: this.course_id,
+            money: this.money 
           })
           .then(
             response => {

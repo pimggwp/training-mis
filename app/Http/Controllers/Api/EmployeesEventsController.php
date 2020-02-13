@@ -40,6 +40,7 @@ class EmployeesEventsController extends Controller
         $employeesEvents = new EmployeesEvents();
         $employeesEvents->employee_id = $request->get('employee_id');
         $employeesEvents->course_id = $request->get('course_id');
+        $employeesEvents->money = $request->get('money');
         $employeesEvents->save();
         return response()->json($employeesEvents);
     }

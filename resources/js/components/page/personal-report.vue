@@ -11,12 +11,24 @@
         <v-card-text>
           <v-container grid-list-md>
             <v-layout wrap>
-              
+              <v-flex xs12 sm6 md6>
+                <v-text-field
+                  @keyup.enter="searchData()"
+                  v-model="employee_code"
+                  v-validate="'required'"
+                  label="รหัสพนักงานที่ต้องการดูประวัติ (enter)"
+                ></v-text-field>
+              </v-flex>
             </v-layout>
+          </v-container>
+          <v-container grid-list-md v-if="is_search">
+            <h1>รหัสสมาชิก : {{employee[0].employee_code}}</h1>
+            <h2>ชื่อ-นามสกุล : {{employee[0].name_title + employee[0].firstname +' '+ employee[0].lastname}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ตำแหน่ง : {{employee[0].position}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; วันที่เข้างาน : {{employee[0].start_date}}</h2>
+            <h2>เคยผ่านการอบรมมาแล้วรวมเป็นจำนวน &nbsp; {{employeesEvents.length}} &nbsp; ครั้ง &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; งบประมาณ &nbsp; {{total}} &nbsp; บาท</h2>
           </v-container>
           <v-container grid-list-md>
             <template>
-              <v-data-table :headers="headers" :items="employees" class="elevation-1">
+              <v-data-table :headers="headers" :items="employeesEvents" class="elevation-1">
                 <template slot="headerCell" slot-scope="props">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
@@ -25,11 +37,12 @@
                     <span>{{ props.header.text }}</span>
                   </v-tooltip>
                 </template>
+                <template v-slot:items="props">
+                  <td>{{ props.index + 1 }}</td>
+                  <td>{{ props.item.course.name }}</td>
+                  <td>{{ props.item.money }}</td>
+                </template>
               </v-data-table>
-              <v-snackbar v-model="snack" :timeout="3000" :color="snackColor">
-                {{ snackText }}
-                <v-btn flat @click="snack = false">Close</v-btn>
-              </v-snackbar>
             </template>
           </v-container>
         </v-card-text>
@@ -68,19 +81,15 @@ export default {
     snackColor: "",
     snackText: "",
     total: 0,
+    employee_code: null,
     date: null,
     modal: false,
     menu: false,
     events: [],
-    types: ["InHouse", "Public", "Other"],
     typeSelect: null,
     courseCodeSelect: null,
     courses: [],
-    course_name: null,
-    inst_name: null,
     total: 0,
-    location: null,
-    number: 0,
     money: 0,
     headers: [
       {
@@ -89,64 +98,40 @@ export default {
         sortable: false,
         value: "index"
       },
-      { text: "หลักสูตร",  value: "course_name" },
-      { text: "ค่าใช้จ่าย", value: "money" },
+      { text: "หลักสูตร", value: "course_name" },
+      { text: "ค่าใช้จ่าย", value: "money" }
     ],
-    employees: [],
-    users: []
+    employee: [],
+    emp_id: null,
+    employeesEvents: [],
+    is_search: false
   }),
+  watch: {
+    employeesEvents() {
+      let total = 0;
+      this.employeesEvents.forEach(element => {
+        console.log(element);
+        total = total + element.money;
+      });
+      this.total = total
+    }
+  },
   methods: {
-    getCourseCode() {
-      axios.get("api/course").then(response => {
-        this.courses = response.data;
-        this.courseCode = this.courses.map(a => a.code);
+    getEmployee() {
+      axios.get("api/employee/" + this.employee_code).then(response => {
+        this.employee = response.data;
+        this.emp_id = this.employee[0].id;
+        this.getEmployeeEvent(this.emp_id);
+        this.is_search = true;
       });
     },
-    getUsers() {
-      axios.get("api/user").then(response => {
-        this.users = response.data;
+    getEmployeeEvent(emp_id) {
+      axios.get("api/employee-event/" + emp_id).then(response => {
+        this.employeesEvents = response.data;
       });
     },
-    save() {
-      axios
-        .post("/api/event", {
-          date: this.date,
-          course_name: this.course_name,
-          type: this.typeSelect,
-          number: this.number,
-          location: this.location,
-          total: this.total,
-          money: this.money
-        })
-        .then(
-          response => {
-            this.snack = true
-            console.log(response);
-          },
-          error => {
-            console.log(error);
-          }
-        );
-      this.snack = true;
-      this.snackColor = "success";
-      this.snackText = "บันทึกแล้ว";
-    },
-    cancel() {
-      this.snack = true;
-      this.snackColor = "error";
-      this.snackText = "ยกเลิก";
-    },
-    searchData(index, code) {
-      let userSel = this.users.filter(user => {
-        return user.code == code;
-      });
-      console.log(userSel[0].firstname);
-      if (userSel) {
-        this.employees[index - 1].Department = userSel[0].Department;
-        this.employees[index - 1].firstname = userSel[0].firstname;
-        this.employees[index - 1].lastname = userSel[0].lastname;
-        this.employees[index - 1].position = userSel[0].position;
-      }
+    searchData() {
+      this.getEmployee();
     }
   }
 };

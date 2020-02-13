@@ -14,9 +14,9 @@
           <v-text-field v-model="search" append-icon="search" label="ค้นหา" single-line></v-text-field>
         </v-flex>
         <v-dialog v-model="dialog" max-width="500px">
-          <template v-slot:activator="{ on }">
+          <!-- <template v-slot:activator="{ on }">
             <v-btn color="primary" dark class="mb-2" v-on="on">เพิ่มสมาชิก</v-btn>
-          </template>
+          </template> -->
           <v-card>
             <v-card-title>
               <h2 class="txt-title">{{ formTitle }}</h2>
@@ -122,10 +122,10 @@
           <td>{{ props.item.department? props.item.department.name : '-' }}</td>
           <td>{{ props.item.position }}</td>
           <td>{{ props.item.start_date }}</td>
-          <td class="justify-center layout px-0">
+          <!-- <td class="justify-center layout px-0">
             <v-icon small class="mr-2" @click="editUser(props.item.id,props.item)">edit</v-icon>
             <v-icon small @click="deleteUser(props.item.id,props.item)">delete</v-icon>
-          </td>
+          </td> -->
         </template>
         <template v-slot:no-results>
           <v-alert
