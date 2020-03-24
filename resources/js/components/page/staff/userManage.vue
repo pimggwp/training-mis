@@ -205,7 +205,15 @@ export default {
     ],
     users: [],
     name_titles: ["นาย", "นาง", "นางสาว"],
-    statusDepartment: ["FIN", "PDD", "PCD", "HRD"],
+    statusDepartment: [
+      "HRD",
+      "ช่างเทคนิค",
+      "อะไหล่",
+      "Call center",
+      "CRL",
+      "SA",
+      "BP"
+    ],
     editIndex: -1,
     editItem: {
       name_title: "",
@@ -242,7 +250,9 @@ export default {
     filterUsers() {
       return this.users.filter(user => {
         return (
-          user.firstname.match(this.search) || user.lastname.match(this.search)
+          user.firstname.match(this.search) ||
+          user.lastname.match(this.search) ||
+          user.code.match(this.search)
         );
       });
     },

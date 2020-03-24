@@ -15,7 +15,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $course = Course::all();
+        $course = Course::with('Course_group')->get();
         return response()->json($course);
     }
 
@@ -37,7 +37,13 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $course = new Course();
+        $course->name = $request->get('name');
+        $course->code = $request->get('code');
+        $course->course_status = $request->get('course_status');
+        $course->instructor = $request->get('instructor');
+        $course->save();
+        return response()->json($course);
     }
 
     /**
@@ -71,7 +77,13 @@ class CourseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $course = Course::find($id);
+        $course->name = $request->get('name');
+        $course->code = $request->get('code');
+        $course->course_status = $request->get('course_status');
+        $course->instructor = $request->get('instructor');
+        $course->update();
+        return response()->json($course);
     }
 
     /**
@@ -82,6 +94,8 @@ class CourseController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $course = Course::find($id);
+        $course->delete();
+        return response()->json($course);
     }
 }

@@ -12,6 +12,6 @@ class Course extends Model
 
     public function Course_group()
     {
-        return $this->hasOne(courseGroup::class, 'group_id');
+        return $this->belongsTo(courseGroup::class, 'group_id');
     }
 }

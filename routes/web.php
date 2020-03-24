@@ -25,5 +25,6 @@ Route::resource('profile','ProfileController');
 Route::resource('training-save','TrainingSaveController');
 Route::resource('employee','EmployeeController');
 Route::resource('personal-report','PersonalReportController');
+Route::resource('course','CourseController');
 
 Route::get('send-main', 'HomeController@sendMail');

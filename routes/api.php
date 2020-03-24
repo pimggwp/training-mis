@@ -25,3 +25,6 @@ Route::resource('event','Api\EventController');
 Route::resource('course','Api\CourseController');
 Route::resource('employee','Api\EmployeeController');
 Route::resource('employee-event','Api\EmployeesEventsController');
+Route::resource('course-group','Api\CourseGroupController');
+Route::resource('department','Api\DepartmentController');
+Route::resource('branch','Api\BranchController');

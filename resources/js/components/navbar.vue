@@ -76,8 +76,8 @@ export default {
         },
         {
           title: "ค้นหาข้อมูลหลักสูตรอบรม",
-          icon: "search"
-          // link: "/dividend-for-admin"
+          icon: "search",
+          link: "/course"
         },
         {
           title: "รายงานสรุปผล",

@@ -20,6 +20,7 @@ Vue.component('save-training', require('./components/page/saveTraining.vue').def
 Vue.component('user-manage', require('./components/page/staff/userManage.vue').default);
 Vue.component('personal-report', require('./components/page/personal-report.vue').default);
 Vue.component('employee', require('./components/page/employee.vue').default);
+Vue.component('course', require('./components/page/course.vue').default);
 
 Vue.component('main-menu', require('./components/page/staff/mainMenu.vue').default);
 

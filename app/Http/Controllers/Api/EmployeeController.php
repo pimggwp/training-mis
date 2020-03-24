@@ -37,7 +37,18 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $employee = new Employee();
+        $employee->name_title = $request->get('name_title');
+        $employee->firstname = $request->get('firstname');
+        $employee->lastname = $request->get('lastname');
+        $employee->employee_code = $request->get('employee_code');
+        $employee->department_id = $request->get('department_id');
+        $employee->position = $request->get('position');
+        $employee->branch_id = $request->get('branch_id');
+        $employee->start_date = $request->get('start_date');
+        $employee->end_date = $request->get('end_date');
+        $employee->save();
+        return response()->json($employee);
     }
 
     /**
@@ -72,7 +83,18 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $employee = Employee::find($id);
+        $employee->name_title = $request->get('name_title');
+        $employee->firstname = $request->get('firstname');
+        $employee->lastname = $request->get('lastname');
+        $employee->employee_code = $request->get('employee_code');
+        $employee->department_id = $request->get('department_id');
+        $employee->position = $request->get('position');
+        $employee->branch_id = $request->get('branch_id');
+        $employee->start_date = $request->get('start_date');
+        $employee->end_date = $request->get('end_date');
+        $employee->update();
+        return response()->json($employee);
     }
 
     /**
@@ -83,6 +105,8 @@ class EmployeeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $employee = Employee::find($id);
+        $employee->delete();
+        return response()->json($employee);
     }
 }
