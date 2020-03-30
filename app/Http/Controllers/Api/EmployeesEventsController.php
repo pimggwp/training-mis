@@ -15,7 +15,7 @@ class EmployeesEventsController extends Controller
      */
     public function index()
     {
-        $employeesEvents = EmployeesEvents::all();
+        $employeesEvents = EmployeesEvents::with('employee')->with('employee.department')->with('event')->get();
         return response()->json($employeesEvents);
     }
 
@@ -39,8 +39,7 @@ class EmployeesEventsController extends Controller
     {
         $employeesEvents = new EmployeesEvents();
         $employeesEvents->employee_id = $request->get('employee_id');
-        $employeesEvents->course_id = $request->get('course_id');
-        $employeesEvents->money = $request->get('money');
+        $employeesEvents->event_id = $request->get('event_id');
         $employeesEvents->save();
         return response()->json($employeesEvents);
     }
@@ -53,7 +52,7 @@ class EmployeesEventsController extends Controller
      */
     public function show($id)
     {
-        $employeesEvents = EmployeesEvents::where('employee_id', '=', $id)->with('course')->get();
+        $employeesEvents = EmployeesEvents::where('employee_id', '=', $id)->with('employee')->with('event')->get();
         return response()->json($employeesEvents);
     }
 

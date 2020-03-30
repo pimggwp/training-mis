@@ -1,0 +1,135 @@
+<template>
+    <v-layout class="justify-end mt-3 mr-5 mb-3">
+        <v-flex xs9 sm11>
+            <v-toolbar flat color="white">
+                <v-toolbar-title>
+                    <h3>
+                        <v-icon large color="blue">description</v-icon
+                        >&nbsp;รายงานสรุปผล
+                    </h3>
+                </v-toolbar-title>
+                <v-divider class="mx-2" inset vertical></v-divider>
+                <v-spacer></v-spacer>
+                <v-flex xs12 sm4 md2>
+                    <v-text-field
+                        v-model="search"
+                        append-icon="search"
+                        label="ค้นหา"
+                        single-line
+                    ></v-text-field>
+                </v-flex>
+            </v-toolbar>
+            <v-data-table
+                :headers="headers"
+                :items="filterEvent"
+                :search="search"
+                :pagination.sync="pagination"
+                class="elevation-1"
+            >
+                <template v-slot:items="props">
+                    <td>{{ props.index + 1 }}</td>
+                    <td>{{ props.item.employee_code }}</td>
+                    <td>{{ props.item.fullname }}</td>
+                    <td>{{ props.item.position }}</td>
+                    <td>{{ props.item.department }}</td>
+                    <td>{{ props.item.date }}</td>
+                    <td>{{ props.item.type }}</td>
+                    <td>{{ props.item.number }}</td>
+                    <td>{{ props.item.location }}</td>
+                    <td>{{ props.item.money }}</td>
+                </template>
+                <template v-slot:no-results>
+                    <v-alert :value="true" color="error" icon="warning"
+                        >Your search for "{{ search }}" found no
+                        results.</v-alert
+                    >
+                </template>
+            </v-data-table>
+        </v-flex>
+    </v-layout>
+</template>
+
+<script>
+export default {
+    $_veeValidate: {
+        validator: "new"
+    },
+    data: () => ({
+        pagination: {
+            rowsPerPage: 10
+        },
+        search: "",
+        headers: [
+            {
+                text: "ลำดับ",
+                align: "left",
+                sortable: false,
+                value: "index"
+            },
+            { text: "รหัสพนักงาน", value: "employee_code" },
+            { text: "ชื่อ-สกุล", value: "fullname" },
+            { text: "ตำแหน่ง", sortable: false, value: "position" },
+            { text: "แผนก", sortable: false, value: "department" },
+            { text: "วันที่จัดอบรม", sortable: false, value: "date" },
+            { text: "ประเภท", sortable: false, value: "type" },
+            { text: "รุ่นที่", sortable: false, value: "number" },
+            { text: "สถานที่", sortable: false, value: "location" },
+            { text: "ค่าใช้จ่าย", sortable: false, value: "money" }
+        ],
+        events: []
+    }),
+    computed: {
+        filterEvent() {
+            return this.events.filter(event => {
+                return event.employee_code.match(this.search);
+            });
+        }
+    },
+    created() {
+        this.getEventsData();
+    },
+    methods: {
+        getEventsData() {
+            axios.get("api/employee-event").then(response => {
+                this.events = this.tranFormData(response.data);
+            });
+        },
+        tranFormData(data) {
+            const result = data.map(element => ({
+                employee_code: element.employee.employee_code,
+                fullname:
+                    element.employee.name_title +
+                    element.employee.firstname +
+                    " " +
+                    element.employee.lastname,
+                position: element.employee.position,
+                department: element.employee.department.name,
+                date: element.event.date,
+                type: element.event.type,
+                number: element.event.number,
+                location: element.event.location,
+                money: element.event.money
+            }));
+            return result;
+        }
+    }
+};
+</script>
+
+<style scoped>
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 8px;
+    font-size: 20px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+</style>

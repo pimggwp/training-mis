@@ -81,8 +81,8 @@ export default {
         },
         {
           title: "รายงานสรุปผล",
-          icon: "description"
-          // link: "/report"
+          icon: "description",
+          link: "/summary-report"
         },
         {
           title: "จัดการสมาชิก",

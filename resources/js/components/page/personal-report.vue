@@ -24,7 +24,7 @@
           <v-container grid-list-md v-if="is_search">
             <h1>รหัสสมาชิก : {{employee[0].employee_code}}</h1>
             <h2>ชื่อ-นามสกุล : {{employee[0].name_title + employee[0].firstname +' '+ employee[0].lastname}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ตำแหน่ง : {{employee[0].position}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; วันที่เข้างาน : {{employee[0].start_date}}</h2>
-            <h2>เคยผ่านการอบรมมาแล้วรวมเป็นจำนวน &nbsp; {{employeesEvents.length}} &nbsp; ครั้ง &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; งบประมาณ &nbsp; {{total}} &nbsp; บาท</h2>
+            <h2>เคยผ่านการอบรมมาแล้วรวมเป็นจำนวน &nbsp; {{employeesEvents.length}} &nbsp; ครั้ง &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; งบประมาณ &nbsp; {{total}} &nbsp; บาท</h2>
           </v-container>
           <v-container grid-list-md>
             <template>
@@ -39,8 +39,8 @@
                 </template>
                 <template v-slot:items="props">
                   <td>{{ props.index + 1 }}</td>
-                  <td>{{ props.item.course.name }}</td>
-                  <td>{{ props.item.money }}</td>
+                  <td>{{ props.item.event.course_name }}</td>
+                  <td>{{ props.item.event.money }}</td>
                 </template>
               </v-data-table>
             </template>
@@ -53,10 +53,6 @@
 
 <script>
 export default {
-  mounted() {
-    this.getCourseCode();
-    this.getUsers();
-  },
   watch: {
     courseCodeSelect: function(newValue) {
       this.course_name = newValue.name;
@@ -80,7 +76,6 @@ export default {
     snack: false,
     snackColor: "",
     snackText: "",
-    total: 0,
     employee_code: null,
     date: null,
     modal: false,
@@ -110,8 +105,7 @@ export default {
     employeesEvents() {
       let total = 0;
       this.employeesEvents.forEach(element => {
-        console.log(element);
-        total = total + element.money;
+        total = total + element.event.money;
       });
       this.total = total
     }

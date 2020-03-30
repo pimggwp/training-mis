@@ -6,9 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class EmployeesEvents extends Model
 {
-    public function course()
+
+    protected $fillable = [
+        'employee_id', 'event_id'
+    ];
+
+    public function employee()
     {
-        return $this->belongsTo(Course::class, 'course_id');
+        return $this->belongsTo(Employee::class, 'employee_id');
+    }
+
+    public function event()
+    {
+        return $this->belongsTo(Event::class, 'event_id');
     }
 
 }

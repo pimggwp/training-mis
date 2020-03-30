@@ -166,9 +166,6 @@
                   </v-date-picker>
                 </v-menu>
               </v-flex>
-              <v-flex xs12 sm12 md12>
-                <v-checkbox v-model="checkNoti" label="แจ้งเตือนผ่านอีเมล์ให้แก่สมาชิก"></v-checkbox>
-              </v-flex>
             </v-layout>
           </v-container>
         </v-card-text>
