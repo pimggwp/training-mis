@@ -46,6 +46,7 @@
         "vee-validate": "^2.2.11",
         "vue-apexcharts": "^1.4.0",
         "vue-router": "^3.1.5",
-        "vuetify": "^1.5.12"
+        "vuetify": "^1.5.12",
+        "xlsx": "^0.15.6"
     }
 }

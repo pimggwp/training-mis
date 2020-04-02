@@ -18,6 +18,18 @@
                         single-line
                     ></v-text-field>
                 </v-flex>
+                <v-btn
+                    color="success"
+                    dark
+                    class="mb-2 txt-title"
+                    @click="exportData()"
+                >
+                    Export รายงาน&nbsp;
+                    <img
+                        width="30"
+                        src="http://icons.iconarchive.com/icons/papirus-team/papirus-apps/256/ms-excel-icon.png"
+                    />
+                </v-btn>
             </v-toolbar>
             <v-data-table
                 :headers="headers"
@@ -32,11 +44,11 @@
                     <td>{{ props.item.fullname }}</td>
                     <td>{{ props.item.position }}</td>
                     <td>{{ props.item.department }}</td>
-                    <td>{{ props.item.date }}</td>
+                    <td>{{ props.item.วันที่ }}</td>
                     <td>{{ props.item.type }}</td>
-                    <td>{{ props.item.number }}</td>
-                    <td>{{ props.item.location }}</td>
-                    <td>{{ props.item.money }}</td>
+                    <td>{{ props.item.รุ่นที่ }}</td>
+                    <td>{{ props.item.สถานที่ }}</td>
+                    <td>{{ props.item.ค่าใช้จ่าย }}</td>
                 </template>
                 <template v-slot:no-results>
                     <v-alert :value="true" color="error" icon="warning"
@@ -50,6 +62,8 @@
 </template>
 
 <script>
+import XLSX from 'xlsx'
+
 export default {
     $_veeValidate: {
         validator: "new"
@@ -104,13 +118,19 @@ export default {
                     element.employee.lastname,
                 position: element.employee.position,
                 department: element.employee.department.name,
-                date: element.event.date,
+                วันที่: element.event.date,
                 type: element.event.type,
-                number: element.event.number,
-                location: element.event.location,
-                money: element.event.money
+                รุ่นที่: element.event.number,
+                สถานที่: element.event.location,
+                ค่าใช้จ่าย: element.event.money
             }));
             return result;
+        },
+        exportData() {
+            const dataWS = XLSX.utils.json_to_sheet(this.filterEvent);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, dataWS);
+            XLSX.writeFile(wb, "export.xlsx");
         }
     }
 };
