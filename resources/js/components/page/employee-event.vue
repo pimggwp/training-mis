@@ -40,11 +40,12 @@
             >
                 <template v-slot:items="props">
                     <td>{{ props.index + 1 }}</td>
-                    <td>{{ props.item.employee_code }}</td>
-                    <td>{{ props.item.fullname }}</td>
-                    <td>{{ props.item.position }}</td>
-                    <td>{{ props.item.department }}</td>
+                    <td>{{ props.item.รหัสพนักงาน }}</td>
+                    <td>{{ props.item.ชื่อและนามสกุล }}</td>
+                    <td>{{ props.item.ตำแหน่ง }}</td>
+                    <td>{{ props.item.แผนก }}</td>
                     <td>{{ props.item.วันที่ }}</td>
+                    <td>{{ props.item.หลักสูตร }}</td>
                     <td>{{ props.item.type }}</td>
                     <td>{{ props.item.รุ่นที่ }}</td>
                     <td>{{ props.item.สถานที่ }}</td>
@@ -85,6 +86,7 @@ export default {
             { text: "ตำแหน่ง", sortable: false, value: "position" },
             { text: "แผนก", sortable: false, value: "department" },
             { text: "วันที่จัดอบรม", sortable: false, value: "date" },
+            { text: "หลักสูตร", sortable: false, value: "course_name" },
             { text: "ประเภท", sortable: false, value: "type" },
             { text: "รุ่นที่", sortable: false, value: "number" },
             { text: "สถานที่", sortable: false, value: "location" },
@@ -95,7 +97,7 @@ export default {
     computed: {
         filterEvent() {
             return this.events.filter(event => {
-                return event.employee_code.match(this.search);
+                return event.รหัสพนักงาน.match(this.search);
             });
         }
     },
@@ -110,15 +112,16 @@ export default {
         },
         tranFormData(data) {
             const result = data.map(element => ({
-                employee_code: element.employee.employee_code,
-                fullname:
+                รหัสพนักงาน: element.employee.employee_code,
+                ชื่อและนามสกุล:
                     element.employee.name_title +
                     element.employee.firstname +
                     " " +
                     element.employee.lastname,
-                position: element.employee.position,
-                department: element.employee.department.name,
+                ตำแหน่ง: element.employee.position,
+                แผนก: element.employee.department.name,
                 วันที่: element.event.date,
+                หลักสูตร: element.event.course_name,
                 type: element.event.type,
                 รุ่นที่: element.event.number,
                 สถานที่: element.event.location,
