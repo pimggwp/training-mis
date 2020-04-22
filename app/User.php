@@ -40,4 +40,9 @@ class User extends Authenticatable
     public function Transaction(){
         return $this->hasMany(Transaction::class,'idstaff');
     }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'department');
+    }
 }

@@ -491,7 +491,7 @@ export default {
                             firstname: this.editItem.firstname,
                             lastname: this.editItem.lastname,
                             employee_code: this.editItem.employee_code,
-                            department_id: this.editItem.department,
+                            department_id: this.editItem.department.id,
                             position: this.editItem.position,
                             branch_id: this.editItem.branch,
                             start_date: this.editItem.start_date,

@@ -34,7 +34,6 @@
             <v-data-table
                 :headers="headers"
                 :items="filterEvent"
-                :search="search"
                 :pagination.sync="pagination"
                 class="elevation-1"
             >
@@ -97,7 +96,7 @@ export default {
     computed: {
         filterEvent() {
             return this.events.filter(event => {
-                return event.รหัสพนักงาน.match(this.search);
+                return event.รหัสพนักงาน.match(this.search) || event.หลักสูตร.match(this.search) || event.ชื่อและนามสกุล.match(this.search);
             });
         }
     },
@@ -127,6 +126,7 @@ export default {
                 สถานที่: element.event.location,
                 ค่าใช้จ่าย: element.event.money
             }));
+            console.log(result)
             return result;
         },
         exportData() {
