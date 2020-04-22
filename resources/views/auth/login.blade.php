@@ -47,9 +47,8 @@
                                 <v-flex xs9 sm10 mt-5 pt-5>
                                     <h2 class="txt-thS text-md-center">ที่อยู่หน่วยงาน
                                     </h2>
-                                    <h3 class="txt-thS text-md-center">dddddfffdfdsfdsfdfd
-                                        จังหวัดเชียงใหม่ 25000</h3>
-                                    <h3 class="txt-thS text-md-center">โทรศัพท์ 0-1234-5678 โทรสาร 01234567 </h3>
+                                    <h3 class="txt-thS text-md-center">130/555 หมู่ 9 ถนนเชียงใหม่-ฮอด ตำบลแม่เหียะ อำเภอเมืองเชียงใหม่ จังหวัด เชียงใหม่ 50100</h3>
+                                    <h3 class="txt-thS text-md-center">โทร.053-999888</h3>
                                 </v-flex>
                             </v-layout>
                             </div>
